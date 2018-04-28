@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 public class SpiderUtils {
     private static final String BLANK = "  ";
     private static final String COMMAND = "D:/phantomjs-2.1.1-windows/bin/phantomjs.exe";
-    private static final String JSCODE = "D:/phantomjs/apple.js";
+    private static final String JSCODE = "D:/phantomjs/modian.js";
 
     public static String getAjax(String url) throws IOException {
         Runtime runtime = Runtime.getRuntime();
