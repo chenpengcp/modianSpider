@@ -1,18 +1,13 @@
 package cn.pdmi.modianSpider.core;
 
-import cn.pdmi.modianSpider.pojo.App;
 import cn.pdmi.modianSpider.pojo.AppSearch;
 import cn.pdmi.modianSpider.utils.JDBCUtils;
 import cn.pdmi.modianSpider.utils.KeyWordUtils;
+import cn.pdmi.modianSpider.utils.SpiderUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import javax.tools.JavaCompiler;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,26 +16,6 @@ import java.util.List;
  * Created by chen_ on 2018/4/24.
  */
 public class AppleSearchSpider {
-    private static final String BLANK = "  ";
-    private static final String COMMAND = "D:/phantomjs-2.1.1-windows/bin/phantomjs.exe";
-    private static final String JSCODE = "D:/phantomjs/qimai.js";
-    //private static final String PATH = "D:/modian.png";
-
-    //抓取网页html
-    public String getAjax(String url) throws IOException {
-        Runtime runtime = Runtime.getRuntime();
-        Process p = runtime.exec(COMMAND + BLANK + JSCODE + BLANK + url);
-        InputStream is = p.getInputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        StringBuffer sbf = new StringBuffer();
-        String temp = "";
-        while ((temp = br.readLine()) != null) {
-            sbf.append(temp);
-        }
-        //System.out.println("抓取成功！");
-        return sbf.toString();
-    }
-
     //解析网页
     public Document getDocument(String html) {
         Document document = Jsoup.parse(html);
@@ -97,7 +72,7 @@ public class AppleSearchSpider {
         for (int i = 0; i <keyWords.size() ; i++) {
             for (String date:dates
                     ) {
-                AppSearch appSearch = appleSearchSpider.getAppSearch(appleSearchSpider.getDocument(appleSearchSpider.getAjax("https://old.qimai.cn/search/index/country/cn/search/"+appleSearchSpider.getEncode(keyWords.get(i))+"/kdate/"+date)),
+                AppSearch appSearch = appleSearchSpider.getAppSearch(appleSearchSpider.getDocument(SpiderUtils.getAjax("https://old.qimai.cn/search/index/country/cn/search/"+appleSearchSpider.getEncode(keyWords.get(i))+"/kdate/"+date)),
                         keyWords.get(i), date);
                 appleSearchSpider.insert(appSearch);
             }

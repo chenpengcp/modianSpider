@@ -7,9 +7,9 @@ package cn.pdmi.modianSpider.core;
 public class StartServer implements Runnable {
     @Override
     public void run() {
-        CoreSpider coreSpider = new CoreSpider();
+        DataSpider dataSpider = new DataSpider();
         try {
-            coreSpider.startServer();
+            dataSpider.startServer();
 
         }catch (Exception e){
             e.printStackTrace();
