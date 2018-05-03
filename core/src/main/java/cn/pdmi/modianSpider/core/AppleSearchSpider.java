@@ -27,8 +27,14 @@ public class AppleSearchSpider {
         AppSearch appSearch = new AppSearch();
         appSearch.setName(keyWord);
         appSearch.setDate(date);
-        appSearch.setSearchIndex(document.select("a.hints").html().replace("&nbsp;<span class=\"glyphicon glyphicon-trend\"></span>",""));
-        appSearch.setSearchResult(document.select("a.search-no").html().replace("&nbsp;<span class=\"glyphicon glyphicon-trend\"></span>",""));
+        //对于有搜索指数的
+        if (document.select("a.hints") != null && !"".equals(document.select("a.hints").html())) {
+            appSearch.setSearchIndex(document.select("a.hints").html().replace("&nbsp;<span class=\"glyphicon glyphicon-trend\"></span>", ""));
+            appSearch.setSearchResult(document.select("a.search-no").html().replace("&nbsp;<span class=\"glyphicon glyphicon-trend\"></span>", ""));
+        } else {
+            appSearch.setSearchIndex("0");
+            appSearch.setSearchResult("0");
+        }
         return appSearch;
     }
 
@@ -66,9 +72,10 @@ public class AppleSearchSpider {
         }
         dates.add("2018-01-31");
         dates.add("2018-03-31");
-        dates.remove("2018-04-29");
-        dates.remove("2018-04-30");
-        List<String> keyWords = KeyWordUtils.getKeyWords();
+        dates.add("2018-05-01");
+        dates.add("2018-05-02");
+        dates.add("2018-05-03");
+        List<String> keyWords = KeyWordUtils.getKeyWords("readExcel");
         for (int i = 0; i <keyWords.size() ; i++) {
             for (String date:dates
                     ) {

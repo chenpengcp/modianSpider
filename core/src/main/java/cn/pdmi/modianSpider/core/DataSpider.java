@@ -215,14 +215,19 @@ public class DataSpider {
         list.add(singletonModel18);
         list.add(singletonModel19);
         list.add(singletonModel20);
+        for (SingletonModel sm:list
+             ) {
+            sm.setTitle(document.select("h3.title span").html());
+            sm.setTotalMoney(Double.parseDouble(document.select("div.col1.project-goal h3 span").html().replace(",", "")));
+        }
         return list;
     }
 
     public void insert(SingletonModel singletonModel) throws Exception {
         QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
-        String sql = "INSERT INTO singletonModel_fqy (name,money,url) " +
-                "VALUES (?,?,?)";
-        int update = queryRunner.update(sql, singletonModel.getName(), singletonModel.getMoney(), singletonModel.getUrl());
+        String sql = "INSERT INTO zdn (name,money,totalMoney,title,url) " +
+                "VALUES (?,?,?,?,?)";
+        int update = queryRunner.update(sql, singletonModel.getName(), singletonModel.getMoney(),singletonModel.getTotalMoney(),singletonModel.getTitle(), singletonModel.getUrl());
         if (update == 1) {
             System.out.println("success!");
         } else {
@@ -245,26 +250,26 @@ public class DataSpider {
 //        list.add(url5);
 //        list.add(url6);
 
-        String url1 = "https://zhongchou.modian.com/item/11775.html";
-        String url2 = "https://zhongchou.modian.com/item/14630.html";
-        String url3 = "https://zhongchou.modian.com/item/12767.html";
-        String url4 = "https://zhongchou.modian.com/item/11696.html";
-        String url5 = "https://zhongchou.modian.com/item/10703.html";
-        String url6 = "https://zhongchou.modian.com/item/10520.html";
-        String url7 = "https://zhongchou.modian.com/item/13935.html";
-        String url8 = "https://zhongchou.modian.com/item/13933.html";
-        String url9 = "https://zhongchou.modian.com/item/15445.html";
-        //String url10 = "https://zhongchou.modian.com/item/10520.html";
-        list.add(url1);
-        list.add(url2);
-        list.add(url3);
-        list.add(url4);
-        list.add(url5);
-        list.add(url6);
-        list.add(url7);
-        list.add(url8);
-        list.add(url9);
-        //list.add(url10);
+//        String url1 = "https://zhongchou.modian.com/item/11775.html";
+//        String url2 = "https://zhongchou.modian.com/item/14630.html";
+//        String url3 = "https://zhongchou.modian.com/item/12767.html";
+//        String url4 = "https://zhongchou.modian.com/item/11696.html";
+//        String url5 = "https://zhongchou.modian.com/item/10703.html";
+//        String url6 = "https://zhongchou.modian.com/item/10520.html";
+//        String url7 = "https://zhongchou.modian.com/item/13935.html";
+//        String url8 = "https://zhongchou.modian.com/item/13933.html";
+//        String url9 = "https://zhongchou.modian.com/item/15445.html";
+//        //String url10 = "https://zhongchou.modian.com/item/10520.html";
+//        list.add(url1);
+//        list.add(url2);
+//        list.add(url3);
+//        list.add(url4);
+//        list.add(url5);
+//        list.add(url6);
+//        list.add(url7);
+//        list.add(url8);
+//        list.add(url9);
+//        //list.add(url10);
 
 //        String url1 = "https://zhongchou.modian.com/item/11390.html";
 //        String url2 = "https://zhongchou.modian.com/item/10790.html";
@@ -278,6 +283,10 @@ public class DataSpider {
 //        list.add(url4);
 //        list.add(url5);
 //        list.add(url6);
+
+        //链接地址
+        String url1 = "https://zhongchou.modian.com/item/16039.html";
+        list.add(url1);
         for (int i = 0; i < list.size(); i++) {
             this.handle(list.get(i));
         }

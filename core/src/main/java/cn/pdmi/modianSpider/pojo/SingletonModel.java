@@ -7,7 +7,25 @@ public class SingletonModel {
     private Integer sid;
     private String name;
     private Double money;
+    private Double totalMoney;
+    private String title;
     private String url;
+
+    public Double getTotalMoney() {
+        return totalMoney;
+    }
+
+    public void setTotalMoney(Double totalMoney) {
+        this.totalMoney = totalMoney;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public Integer getSid() {
         return sid;

@@ -12,6 +12,7 @@ public class SpiderUtils {
     private static final String BLANK = "  ";
     private static final String COMMAND = "D:/phantomjs-2.1.1-windows/bin/phantomjs.exe";
     private static final String JSCODE = "D:/phantomjs/modian.js";
+    //private static final String JSCODE = "D:/phantomjs/qimai.js";
 
     public static String getAjax(String url) throws IOException {
         Runtime runtime = Runtime.getRuntime();

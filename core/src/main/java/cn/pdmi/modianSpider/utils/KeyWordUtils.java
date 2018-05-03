@@ -21,10 +21,10 @@ public class KeyWordUtils {
 //            System.out.println(k);
 //        }
 //    }
-    public static List<String> getKeyWords() {
+    public static List<String> getKeyWords(String excelName) {
         try {
             ArrayList<String> keyWords = new ArrayList<>();
-            FileInputStream excelFileInputStream = new FileInputStream("D:/phantomjs/readExcel.xlsx");
+            FileInputStream excelFileInputStream = new FileInputStream("D:/phantomjs/"+excelName+".xlsx");
             XSSFWorkbook workbook = new XSSFWorkbook(excelFileInputStream);
 
             excelFileInputStream.close();
