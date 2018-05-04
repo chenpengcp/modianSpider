@@ -28,11 +28,12 @@ public class AndroidMarket_360_Spider {
         AndroidSearch androidSearch = new AndroidSearch();
         androidSearch.setName(keyWord);
         //对于有搜索指数的
-        if (document.select("ul").get(1).select("li").get(0).select("span.red").html() != null && !"".equals(document.select("ul").get(1).select("li").get(0).select("span.red").html())&&keyWord.toLowerCase().contains(document.select("ul").get(1).select("li").get(0).select("h3 a").attr("title").toLowerCase())) {
+        if (document.select("ul").get(1).select("li").get(0).select("span.red").html() != null && !"".equals(document.select("ul").get(1).select("li").get(0).select("span.red").html())&&
+                (keyWord.toLowerCase().contains(document.select("ul").get(1).select("li").get(0).select("h3 a").attr("title").toLowerCase())||document.select("ul").get(1).select("li").get(0).select("h3 a").attr("title").toLowerCase().contains(keyWord.toLowerCase()))) {
             androidSearch.setEnter(1);
             String count = document.select("ul").get(1).select("li").get(0).select("p.downNum").html();
             if (count.endsWith("亿次下载")) {
-                androidSearch.setDownloads(String.valueOf(Integer.parseInt(count.substring(0, count.indexOf("万"))) * 1000000000));
+                androidSearch.setDownloads(String.valueOf(Integer.parseInt(count.substring(0, count.indexOf("亿"))) * 1000000000));
             }
             if (count.endsWith("万次下载")) {
                 androidSearch.setDownloads(String.valueOf(Integer.parseInt(count.substring(0, count.indexOf("万"))) * 10000));

@@ -40,4 +40,14 @@ public class AndroidSearch {
     public void setEnter(Integer enter) {
         this.enter = enter;
     }
+
+    @Override
+    public String toString() {
+        return "AndroidSearch{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", downloads='" + downloads + '\'' +
+                ", enter=" + enter +
+                '}';
+    }
 }
