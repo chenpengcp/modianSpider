@@ -11,7 +11,7 @@ public class StartServer implements Runnable {
         try {
             dataSpider.startServer();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

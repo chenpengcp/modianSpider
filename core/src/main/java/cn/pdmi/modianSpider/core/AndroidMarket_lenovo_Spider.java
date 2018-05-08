@@ -27,28 +27,28 @@ public class AndroidMarket_lenovo_Spider {
         DecimalFormat df = new DecimalFormat("#");
         AndroidSearch androidSearch = new AndroidSearch();
         androidSearch.setName(keyWord);
-        if (document.select("div.appDetails") != null&&document.select("div.appDetails") .size()>0) {
-            if (keyWord.toLowerCase().equals(document.select("div.appDetails").get(0).select("p.f16.ff-wryh.appName a").html().toLowerCase()) || document.select("div.appDetails").get(0).select("p.f16.ff-wryh.appName a").html().toLowerCase().contains(keyWord.toLowerCase())||
+        if (document.select("div.appDetails") != null && document.select("div.appDetails").size() > 0) {
+            if (keyWord.toLowerCase().equals(document.select("div.appDetails").get(0).select("p.f16.ff-wryh.appName a").html().toLowerCase()) || document.select("div.appDetails").get(0).select("p.f16.ff-wryh.appName a").html().toLowerCase().contains(keyWord.toLowerCase()) ||
                     keyWord.toLowerCase().contains(document.select("div.appDetails").get(0).select("p.f16.ff-wryh.appName a").html().toLowerCase())) {
                 String count = document.select("div.appInfo.tcenter.pr p.f12.fgrey4").get(0).select("span.fgrey5").html();
-                if (count.contains("大于")){
+                if (count.contains("大于")) {
                     if (count.endsWith("万次安装")) {
                         androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(2, count.indexOf("万"))) * 10000)));
                     } else if (count.contains("亿次安装")) {
                         androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(2, count.indexOf("亿"))) * 100000000)));
-                    }  else if (count.contains("千次安装")) {
+                    } else if (count.contains("千次安装")) {
                         androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(2, count.indexOf("千"))) * 1000)));
-                    }else {
+                    } else {
                         androidSearch.setDownloads(count.substring(2));
                     }
-                }else {
+                } else {
                     if (count.endsWith("万次安装")) {
                         androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(0, count.indexOf("万"))) * 10000)));
                     } else if (count.contains("亿次安装")) {
                         androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(0, count.indexOf("亿"))) * 100000000)));
-                    }  else if (count.contains("千次安装")) {
+                    } else if (count.contains("千次安装")) {
                         androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(0, count.indexOf("千"))) * 1000)));
-                    }else {
+                    } else {
                         androidSearch.setDownloads(count);
                     }
                 }
@@ -86,7 +86,7 @@ public class AndroidMarket_lenovo_Spider {
         AndroidMarket_lenovo_Spider androidMarket_lenovo_Spider = new AndroidMarket_lenovo_Spider();
         List<String> keyWords = KeyWordUtils.getKeyWords("androidExcel");
         for (int i = 0; i < keyWords.size(); i++) {
-            AndroidSearch androidSearch = androidMarket_lenovo_Spider.getAndroidSearch(androidMarket_lenovo_Spider.getDocument(SpiderUtils.getAjax("http://www.lenovomm.com/search/index.html?q="+androidMarket_lenovo_Spider.getEncode(keyWords.get(i)))),
+            AndroidSearch androidSearch = androidMarket_lenovo_Spider.getAndroidSearch(androidMarket_lenovo_Spider.getDocument(SpiderUtils.getAjax("http://www.lenovomm.com/search/index.html?q=" + androidMarket_lenovo_Spider.getEncode(keyWords.get(i)))),
                     keyWords.get(i));
             androidMarket_lenovo_Spider.insert(androidSearch);
             //System.out.println(androidSearch);

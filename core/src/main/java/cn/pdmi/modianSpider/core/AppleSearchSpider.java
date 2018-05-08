@@ -33,9 +33,9 @@ public class AppleSearchSpider {
             appSearch.setSearchResult(document.select("a.search-no").html().replace("&nbsp;<span class=\"glyphicon glyphicon-trend\"></span>", ""));
         } else {
             appSearch.setSearchIndex("0");
-            if (document.select("div.search-index-list")!=null&&document.select("div.search-index-list table.table.table-border")!=null){
+            if (document.select("div.search-index-list") != null && document.select("div.search-index-list table.table.table-border") != null) {
                 appSearch.setSearchResult(document.select("div.search-index-list table.table.table-border tbody tr td").get(2).html());
-            }else {
+            } else {
                 appSearch.setSearchResult("0");
             }
         }
@@ -54,24 +54,26 @@ public class AppleSearchSpider {
         }
 
     }
-    public String getEncode(String url)throws Exception{
-        return URLEncoder.encode(url,"utf-8");
+
+    public String getEncode(String url) throws Exception {
+        return URLEncoder.encode(url, "utf-8");
     }
+
     public static void main(String[] args) throws Exception {
         AppleSearchSpider appleSearchSpider = new AppleSearchSpider();
         ArrayList<String> dates = new ArrayList<>();
-        for (int i = 1; i <5 ; i++) {
+        for (int i = 1; i < 5; i++) {
             StringBuffer sb = new StringBuffer();
             sb.append("2018-0").append(i);
-            for (int j = 1; j <31 ; j++) {
+            for (int j = 1; j < 31; j++) {
                 StringBuffer sb2 = new StringBuffer();
                 sb2.append("-");
-                if (j<10){
+                if (j < 10) {
                     sb2.append("0").append(j);
-                }else {
+                } else {
                     sb2.append(j);
                 }
-                dates.add(sb.toString()+sb2.toString());
+                dates.add(sb.toString() + sb2.toString());
             }
         }
         dates.add("2018-01-31");
@@ -85,10 +87,10 @@ public class AppleSearchSpider {
         dates.add("2018-05-07");
         dates.add("2018-05-08");
         List<String> keyWords = KeyWordUtils.getKeyWords("readExcel");
-        for (int i = 0; i <keyWords.size() ; i++) {
-            for (String date:dates
+        for (int i = 0; i < keyWords.size(); i++) {
+            for (String date : dates
                     ) {
-                AppSearch appSearch = appleSearchSpider.getAppSearch(appleSearchSpider.getDocument(SpiderUtils.getAjax("https://old.qimai.cn/search/index/country/cn/search/"+appleSearchSpider.getEncode(keyWords.get(i))+"/kdate/"+date)),
+                AppSearch appSearch = appleSearchSpider.getAppSearch(appleSearchSpider.getDocument(SpiderUtils.getAjax("https://old.qimai.cn/search/index/country/cn/search/" + appleSearchSpider.getEncode(keyWords.get(i)) + "/kdate/" + date)),
                         keyWords.get(i), date);
                 appleSearchSpider.insert(appSearch);
             }

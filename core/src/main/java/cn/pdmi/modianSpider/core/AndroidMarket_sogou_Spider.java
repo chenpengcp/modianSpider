@@ -27,13 +27,13 @@ public class AndroidMarket_sogou_Spider {
         DecimalFormat df = new DecimalFormat("#");
         AndroidSearch androidSearch = new AndroidSearch();
         androidSearch.setName(keyWord);
-        if (document.select("ul.list.clearfix") != null&&document.select("ul.list.clearfix li").size()>0) {
-            if (keyWord.toLowerCase().equals(document.select("ul.list.clearfix li").get(0).select("a").get(0).attr("title").toLowerCase()) || document.select("ul.list.clearfix li").get(0).select("a").get(0).attr("title").toLowerCase().contains(keyWord.toLowerCase())||
+        if (document.select("ul.list.clearfix") != null && document.select("ul.list.clearfix li").size() > 0) {
+            if (keyWord.toLowerCase().equals(document.select("ul.list.clearfix li").get(0).select("a").get(0).attr("title").toLowerCase()) || document.select("ul.list.clearfix li").get(0).select("a").get(0).attr("title").toLowerCase().contains(keyWord.toLowerCase()) ||
                     keyWord.toLowerCase().contains(document.select("ul.list.clearfix li").get(0).select("a").get(0).attr("title").toLowerCase())) {
-                String count = document.select("ul.list.clearfix li").get(0).select("p.count").html().substring(0,document.select("ul.list.clearfix li").get(0).select("p.count").html().indexOf("<"));
+                String count = document.select("ul.list.clearfix li").get(0).select("p.count").html().substring(0, document.select("ul.list.clearfix li").get(0).select("p.count").html().indexOf("<"));
                 if (count.endsWith("万")) {
                     androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(0, count.indexOf("万"))) * 10000)));
-                }  else {
+                } else {
                     androidSearch.setDownloads(count);
                 }
                 androidSearch.setEnter(1);
@@ -69,7 +69,7 @@ public class AndroidMarket_sogou_Spider {
         AndroidMarket_sogou_Spider androidMarket_sougo_Spider = new AndroidMarket_sogou_Spider();
         List<String> keyWords = KeyWordUtils.getKeyWords("androidExcel");
         for (int i = 0; i < keyWords.size(); i++) {
-            AndroidSearch androidSearch = androidMarket_sougo_Spider.getAndroidSearch(androidMarket_sougo_Spider.getDocument(SpiderUtils.getAjax("http://zhushou.sogou.com/apps/search.html?from=index&key="+androidMarket_sougo_Spider.getEncode(keyWords.get(i)))),
+            AndroidSearch androidSearch = androidMarket_sougo_Spider.getAndroidSearch(androidMarket_sougo_Spider.getDocument(SpiderUtils.getAjax("http://zhushou.sogou.com/apps/search.html?from=index&key=" + androidMarket_sougo_Spider.getEncode(keyWords.get(i)))),
                     keyWords.get(i));
             androidMarket_sougo_Spider.insert(androidSearch);
             //System.out.println(androidSearch);

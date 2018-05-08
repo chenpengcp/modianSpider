@@ -28,15 +28,15 @@ public class AndroidMarket_coolpad_Spider {
         DecimalFormat df = new DecimalFormat("#");
         AndroidSearch androidSearch = new AndroidSearch();
         androidSearch.setName(keyWord);
-        if (document.select("div.list-content.line-bottom") != null&&document.select("div.list-content.line-bottom").size()>0) {
-            if (keyWord.toLowerCase().equals(document.select("div.list-content.line-bottom").get(0).select("div.content h1").html().toLowerCase()) || document.select("div.list-content.line-bottom").get(0).select("div.content h1").html().toLowerCase().contains(keyWord.toLowerCase())||
+        if (document.select("div.list-content.line-bottom") != null && document.select("div.list-content.line-bottom").size() > 0) {
+            if (keyWord.toLowerCase().equals(document.select("div.list-content.line-bottom").get(0).select("div.content h1").html().toLowerCase()) || document.select("div.list-content.line-bottom").get(0).select("div.content h1").html().toLowerCase().contains(keyWord.toLowerCase()) ||
                     keyWord.toLowerCase().contains(document.select("div.list-content.line-bottom").get(0).select("div.content h1").html().toLowerCase())) {
                 String count = document.select("div.list-content.line-bottom").get(0).select("div.content span").html();
 
                 if (count.contains("万")) {
                     androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(0, count.indexOf("万"))) * 10000)));
-                }  else {
-                    androidSearch.setDownloads(count.substring(0,count.indexOf("+")));
+                } else {
+                    androidSearch.setDownloads(count.substring(0, count.indexOf("+")));
                 }
                 androidSearch.setEnter(1);
             } else {
@@ -71,7 +71,7 @@ public class AndroidMarket_coolpad_Spider {
         AndroidMarket_coolpad_Spider androidMarket_coolpad_Spider = new AndroidMarket_coolpad_Spider();
         List<String> keyWords = KeyWordUtils.getKeyWords("androidExcel");
         for (int i = 0; i < keyWords.size(); i++) {
-            AndroidSearch androidSearch = androidMarket_coolpad_Spider.getAndroidSearch(androidMarket_coolpad_Spider.getDocument(CoolMartSpiderUtils.getAjax("http://www.coolmart.net.cn/components/search.html",keyWords.get(i))),
+            AndroidSearch androidSearch = androidMarket_coolpad_Spider.getAndroidSearch(androidMarket_coolpad_Spider.getDocument(CoolMartSpiderUtils.getAjax("http://www.coolmart.net.cn/components/search.html", keyWords.get(i))),
                     keyWords.get(i));
             androidMarket_coolpad_Spider.insert(androidSearch);
             //System.out.println(androidSearch);

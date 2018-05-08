@@ -27,8 +27,8 @@ public class AndroidMarket_baidu_Spider {
         DecimalFormat df = new DecimalFormat("#");
         AndroidSearch androidSearch = new AndroidSearch();
         androidSearch.setName(keyWord);
-        if (document.select("div.app") != null&&document.select("div.app").size()>0) {
-            if (keyWord.toLowerCase().equals(document.select("div.app").get(0).select("div.info div.top a.app-name").html().toLowerCase()) || document.select("div.app").get(0).select("div.info div.top a.app-name").html().toLowerCase().contains(keyWord.toLowerCase())||
+        if (document.select("div.app") != null && document.select("div.app").size() > 0) {
+            if (keyWord.toLowerCase().equals(document.select("div.app").get(0).select("div.info div.top a.app-name").html().toLowerCase()) || document.select("div.app").get(0).select("div.info div.top a.app-name").html().toLowerCase().contains(keyWord.toLowerCase()) ||
                     keyWord.toLowerCase().contains(document.select("div.app").get(0).select("div.info div.top a.app-name").html().toLowerCase())) {
                 String count = document.select("div.app").get(0).select("div.info div.middle").get(1).select("em span.download-num").html();
                 if (count.endsWith("万")) {

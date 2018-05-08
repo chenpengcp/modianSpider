@@ -215,8 +215,8 @@ public class DataSpider {
         list.add(singletonModel18);
         list.add(singletonModel19);
         list.add(singletonModel20);
-        for (SingletonModel sm:list
-             ) {
+        for (SingletonModel sm : list
+                ) {
             sm.setTitle(document.select("h3.title span").html());
             sm.setTotalMoney(Double.parseDouble(document.select("div.col1.project-goal h3 span").html().replace(",", "")));
         }
@@ -227,7 +227,7 @@ public class DataSpider {
         QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
         String sql = "INSERT INTO zdn (name,money,totalMoney,title,url) " +
                 "VALUES (?,?,?,?,?)";
-        int update = queryRunner.update(sql, singletonModel.getName(), singletonModel.getMoney(),singletonModel.getTotalMoney(),singletonModel.getTitle(), singletonModel.getUrl());
+        int update = queryRunner.update(sql, singletonModel.getName(), singletonModel.getMoney(), singletonModel.getTotalMoney(), singletonModel.getTitle(), singletonModel.getUrl());
         if (update == 1) {
             System.out.println("success!");
         } else {

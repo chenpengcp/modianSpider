@@ -27,18 +27,18 @@ public class AndroidMarket_meizu_Spider {
         DecimalFormat df = new DecimalFormat("#");
         AndroidSearch androidSearch = new AndroidSearch();
         androidSearch.setName(keyWord);
-        if (document.select("div.search_one.downloading") != null&&document.select("div.search_one.downloading").size()>0) {
-            if (keyWord.toLowerCase().equals(document.select("div.search_one.downloading").get(0).select("div.one_right a.ellipsis").html().toLowerCase()) || document.select("div.search_one.downloading").get(0).select("div.one_right a.ellipsis").html().toLowerCase().contains(keyWord.toLowerCase())||
+        if (document.select("div.search_one.downloading") != null && document.select("div.search_one.downloading").size() > 0) {
+            if (keyWord.toLowerCase().equals(document.select("div.search_one.downloading").get(0).select("div.one_right a.ellipsis").html().toLowerCase()) || document.select("div.search_one.downloading").get(0).select("div.one_right a.ellipsis").html().toLowerCase().contains(keyWord.toLowerCase()) ||
                     keyWord.toLowerCase().contains(document.select("div.search_one.downloading").get(0).select("div.one_right a.ellipsis").html().toLowerCase())) {
                 String count = document.select("div.search_one.downloading").get(0).select("div.one_right span.download_num").html();
 
                 if (count.endsWith("W+")) {
                     androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.trim().substring(5, count.trim().indexOf("W"))) * 10000)));
-                }  else if (count.contains("KW+")) {
+                } else if (count.contains("KW+")) {
                     androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.trim().substring(5, count.trim().indexOf("K"))) * 10000000)));
-                }else if (count.contains("K+")) {
+                } else if (count.contains("K+")) {
                     androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.trim().substring(5, count.trim().indexOf("K"))) * 1000)));
-                }else {
+                } else {
                     androidSearch.setDownloads(count.trim().substring(5));
                 }
                 androidSearch.setEnter(1);
@@ -74,7 +74,7 @@ public class AndroidMarket_meizu_Spider {
         AndroidMarket_meizu_Spider androidMarket_meizu_Spider = new AndroidMarket_meizu_Spider();
         List<String> keyWords = KeyWordUtils.getKeyWords("androidExcel");
         for (int i = 0; i < keyWords.size(); i++) {
-            AndroidSearch androidSearch = androidMarket_meizu_Spider.getAndroidSearch(androidMarket_meizu_Spider.getDocument(SpiderUtils.getAjax("http://app.meizu.com/apps/public/search?keyword="+androidMarket_meizu_Spider.getEncode(keyWords.get(i)))),
+            AndroidSearch androidSearch = androidMarket_meizu_Spider.getAndroidSearch(androidMarket_meizu_Spider.getDocument(SpiderUtils.getAjax("http://app.meizu.com/apps/public/search?keyword=" + androidMarket_meizu_Spider.getEncode(keyWords.get(i)))),
                     keyWords.get(i));
             androidMarket_meizu_Spider.insert(androidSearch);
             //System.out.println(androidSearch);

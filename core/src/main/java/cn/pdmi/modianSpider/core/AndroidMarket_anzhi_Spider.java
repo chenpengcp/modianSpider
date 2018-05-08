@@ -27,15 +27,15 @@ public class AndroidMarket_anzhi_Spider {
         DecimalFormat df = new DecimalFormat("#");
         AndroidSearch androidSearch = new AndroidSearch();
         androidSearch.setName(keyWord);
-        if (document.select("div.app_info") != null&&document.select("div.app_info").size()>0) {
-            if (keyWord.toLowerCase().equals(document.select("div.app_info").get(0).select("span.app_name a").html().toLowerCase()) || document.select("div.app_info").get(0).select("span.app_name a").html().toLowerCase().contains(keyWord.toLowerCase())||
+        if (document.select("div.app_info") != null && document.select("div.app_info").size() > 0) {
+            if (keyWord.toLowerCase().equals(document.select("div.app_info").get(0).select("span.app_name a").html().toLowerCase()) || document.select("div.app_info").get(0).select("span.app_name a").html().toLowerCase().contains(keyWord.toLowerCase()) ||
                     keyWord.toLowerCase().contains(document.select("div.app_info").get(0).select("span.app_name a").html().toLowerCase())) {
                 String count = document.select("div.app_info").get(0).select("div.app_top span.app_downnum.l").html();
 
                 if (count.endsWith("万+")) {
                     androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.trim().substring(3, count.trim().indexOf("万"))) * 10000)));
-                }  else {
-                    androidSearch.setDownloads(count.trim().substring(3,count.trim().indexOf("+")));
+                } else {
+                    androidSearch.setDownloads(count.trim().substring(3, count.trim().indexOf("+")));
                 }
                 androidSearch.setEnter(1);
             } else {
@@ -70,7 +70,7 @@ public class AndroidMarket_anzhi_Spider {
         AndroidMarket_anzhi_Spider androidMarket_anzhi_Spider = new AndroidMarket_anzhi_Spider();
         List<String> keyWords = KeyWordUtils.getKeyWords("androidExcel");
         for (int i = 0; i < keyWords.size(); i++) {
-            AndroidSearch androidSearch = androidMarket_anzhi_Spider.getAndroidSearch(androidMarket_anzhi_Spider.getDocument(SpiderUtils.getAjax("http://www.anzhi.com/search.php?keyword="+androidMarket_anzhi_Spider.getEncode(keyWords.get(i)))),
+            AndroidSearch androidSearch = androidMarket_anzhi_Spider.getAndroidSearch(androidMarket_anzhi_Spider.getDocument(SpiderUtils.getAjax("http://www.anzhi.com/search.php?keyword=" + androidMarket_anzhi_Spider.getEncode(keyWords.get(i)))),
                     keyWords.get(i));
             //androidMarket_anzhi_Spider.insert(androidSearch);
             System.out.println(androidSearch);

@@ -27,21 +27,22 @@ public class AndroidMarket_qq_Spider {
         DecimalFormat df = new DecimalFormat("#");
         AndroidSearch androidSearch = new AndroidSearch();
         androidSearch.setName(keyWord);
-        if(document.select("div.name-line")!=null){
-        if (keyWord.toLowerCase().contains(document.select("div.name-line").get(0).select("div.name a.appName").html().toLowerCase())||document.select("div.name-line").get(0).select("div.name a.appName").html().toLowerCase().contains(keyWord)) {
-            String count = document.select("div.data-box").get(0).select("div.down-line").html();
-            if (count.endsWith("万人下载")) {
-                androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(0, count.indexOf("万"))) * 10000)));
-            }else
-            if (count.contains("亿人下载")) {
-                androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(0, count.indexOf("亿"))) * 100000000)));
-            }else {
-            androidSearch.setDownloads(count.substring(0,count.indexOf("人")));}
-            androidSearch.setEnter(1);
+        if (document.select("div.name-line") != null) {
+            if (keyWord.toLowerCase().contains(document.select("div.name-line").get(0).select("div.name a.appName").html().toLowerCase()) || document.select("div.name-line").get(0).select("div.name a.appName").html().toLowerCase().contains(keyWord)) {
+                String count = document.select("div.data-box").get(0).select("div.down-line").html();
+                if (count.endsWith("万人下载")) {
+                    androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(0, count.indexOf("万"))) * 10000)));
+                } else if (count.contains("亿人下载")) {
+                    androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(0, count.indexOf("亿"))) * 100000000)));
+                } else {
+                    androidSearch.setDownloads(count.substring(0, count.indexOf("人")));
+                }
+                androidSearch.setEnter(1);
+            } else {
+                androidSearch.setDownloads("0");
+                androidSearch.setEnter(0);
+            }
         } else {
-            androidSearch.setDownloads("0");
-            androidSearch.setEnter(0);
-        }}else {
             androidSearch.setDownloads("0");
             androidSearch.setEnter(0);
         }

@@ -24,7 +24,7 @@ public class AppleSpider {
     //封装数据模型
     public List<App> getApps(Document document) {
         ArrayList<App> apps = new ArrayList<>();
-        for (int i = 0; i <100 ; i++) {
+        for (int i = 0; i < 100; i++) {
             App app = new App();
             app.setName(document.select("section.section.apps.grid ul li").get(i).select("a img").attr("alt"));
             apps.add(app);
@@ -37,9 +37,9 @@ public class AppleSpider {
         QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
         String sql = "INSERT INTO free_apps_downloadRanking (appName) " +
                 "VALUES (?)";
-        for (App app:list
-             ) {
-            int update = queryRunner.update(sql,app.getName());
+        for (App app : list
+                ) {
+            int update = queryRunner.update(sql, app.getName());
             if (update == 1) {
                 System.out.println("success!");
             } else {
@@ -48,7 +48,7 @@ public class AppleSpider {
         }
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         AppleSpider appleSpider = new AppleSpider();
         List<App> apps = appleSpider.getApps(appleSpider.getDocument(SpiderUtils.getAjax("https://www.apple.com/cn/itunes/charts/free-apps/")));
         //List<App> apps = appleSpider.getApps(appleSpider.getDocument(SpiderUtils.getAjax("https://www.apple.com/cn/itunes/charts/paid-apps/")));

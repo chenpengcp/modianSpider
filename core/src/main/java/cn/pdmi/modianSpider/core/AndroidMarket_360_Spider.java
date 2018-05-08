@@ -28,8 +28,8 @@ public class AndroidMarket_360_Spider {
         AndroidSearch androidSearch = new AndroidSearch();
         androidSearch.setName(keyWord);
         //对于有搜索指数的
-        if (document.select("ul").get(1).select("li").get(0).select("span.red").html() != null && !"".equals(document.select("ul").get(1).select("li").get(0).select("span.red").html())&&
-                (keyWord.toLowerCase().contains(document.select("ul").get(1).select("li").get(0).select("h3 a").attr("title").toLowerCase())||document.select("ul").get(1).select("li").get(0).select("h3 a").attr("title").toLowerCase().contains(keyWord.toLowerCase()))) {
+        if (document.select("ul").get(1).select("li").get(0).select("span.red").html() != null && !"".equals(document.select("ul").get(1).select("li").get(0).select("span.red").html()) &&
+                (keyWord.toLowerCase().contains(document.select("ul").get(1).select("li").get(0).select("h3 a").attr("title").toLowerCase()) || document.select("ul").get(1).select("li").get(0).select("h3 a").attr("title").toLowerCase().contains(keyWord.toLowerCase()))) {
             androidSearch.setEnter(1);
             String count = document.select("ul").get(1).select("li").get(0).select("p.downNum").html();
             if (count.endsWith("亿次下载")) {
@@ -47,7 +47,7 @@ public class AndroidMarket_360_Spider {
             if (count.endsWith("十次下载")) {
                 androidSearch.setDownloads(String.valueOf(Integer.parseInt(count.substring(0, count.indexOf("十"))) * 10));
             }
-            if (count.endsWith("次下载")&&!count.contains("亿")&&!count.contains("万")&&!count.contains("千")&&!count.contains("百")&&!count.contains("十")) {
+            if (count.endsWith("次下载") && !count.contains("亿") && !count.contains("万") && !count.contains("千") && !count.contains("百") && !count.contains("十")) {
                 androidSearch.setDownloads(String.valueOf(Integer.parseInt(count.substring(0, count.indexOf("次")))));
             }
         } else {
@@ -69,15 +69,17 @@ public class AndroidMarket_360_Spider {
         }
 
     }
-    public String getEncode(String url)throws Exception{
-        return URLEncoder.encode(url,"utf-8");
+
+    public String getEncode(String url) throws Exception {
+        return URLEncoder.encode(url, "utf-8");
     }
+
     public static void main(String[] args) throws Exception {
         AndroidMarket_360_Spider androidMarket_360_Spider = new AndroidMarket_360_Spider();
         List<String> keyWords = KeyWordUtils.getKeyWords("androidExcel");
-        for (int i = 0; i <keyWords.size() ; i++) {
-            AndroidSearch androidSearch = androidMarket_360_Spider.getAndroidSearch(androidMarket_360_Spider.getDocument(SpiderUtils.getAjax(" http://zhushou.360.cn/search/index/?kw="+androidMarket_360_Spider.getEncode(keyWords.get(i)))),
-                        keyWords.get(i));
+        for (int i = 0; i < keyWords.size(); i++) {
+            AndroidSearch androidSearch = androidMarket_360_Spider.getAndroidSearch(androidMarket_360_Spider.getDocument(SpiderUtils.getAjax(" http://zhushou.360.cn/search/index/?kw=" + androidMarket_360_Spider.getEncode(keyWords.get(i)))),
+                    keyWords.get(i));
             androidMarket_360_Spider.insert(androidSearch);
         }
 
