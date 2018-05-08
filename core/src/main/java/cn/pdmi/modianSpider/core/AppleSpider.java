@@ -35,7 +35,7 @@ public class AppleSpider {
 
     public void insert(List<App> list) throws Exception {
         QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
-        String sql = "INSERT INTO paid_apps (name) " +
+        String sql = "INSERT INTO free_apps_downloadRanking (appName) " +
                 "VALUES (?)";
         for (App app:list
              ) {
@@ -50,8 +50,8 @@ public class AppleSpider {
 
     public static void main(String[] args) throws Exception{
         AppleSpider appleSpider = new AppleSpider();
-        //List<App> apps = appleSpider.getApps(appleSpider.getDocument(appleSpider.getAjax("https://www.apple.com/cn/itunes/charts/free-apps/")));
-        List<App> apps = appleSpider.getApps(appleSpider.getDocument(SpiderUtils.getAjax("https://www.apple.com/cn/itunes/charts/paid-apps/")));
+        List<App> apps = appleSpider.getApps(appleSpider.getDocument(SpiderUtils.getAjax("https://www.apple.com/cn/itunes/charts/free-apps/")));
+        //List<App> apps = appleSpider.getApps(appleSpider.getDocument(SpiderUtils.getAjax("https://www.apple.com/cn/itunes/charts/paid-apps/")));
         appleSpider.insert(apps);
     }
 }

@@ -33,14 +33,18 @@ public class AppleSearchSpider {
             appSearch.setSearchResult(document.select("a.search-no").html().replace("&nbsp;<span class=\"glyphicon glyphicon-trend\"></span>", ""));
         } else {
             appSearch.setSearchIndex("0");
-            appSearch.setSearchResult("0");
+            if (document.select("div.search-index-list")!=null&&document.select("div.search-index-list table.table.table-border")!=null){
+                appSearch.setSearchResult(document.select("div.search-index-list table.table.table-border tbody tr td").get(2).html());
+            }else {
+                appSearch.setSearchResult("0");
+            }
         }
         return appSearch;
     }
 
     public void insert(AppSearch appSearch) throws Exception {
         QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
-        String sql = "INSERT INTO appSearch (name,searchIndex,searchResult,date) " +
+        String sql = "INSERT INTO app_store_search (appName,searchIndex,searchResult,date) " +
                 "VALUES (?,?,?,?)";
         int update = queryRunner.update(sql, appSearch.getName(), appSearch.getSearchIndex(), appSearch.getSearchResult(), appSearch.getDate());
         if (update == 1) {
@@ -75,6 +79,11 @@ public class AppleSearchSpider {
         dates.add("2018-05-01");
         dates.add("2018-05-02");
         dates.add("2018-05-03");
+        dates.add("2018-05-04");
+        dates.add("2018-05-05");
+        dates.add("2018-05-06");
+        dates.add("2018-05-07");
+        dates.add("2018-05-08");
         List<String> keyWords = KeyWordUtils.getKeyWords("readExcel");
         for (int i = 0; i <keyWords.size() ; i++) {
             for (String date:dates

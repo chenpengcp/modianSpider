@@ -16,9 +16,9 @@ public class JDBCUtils {
     static {
         try {
             dataSource.setDriverClass("com.mysql.jdbc.Driver");
-            dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/modian");
-            dataSource.setUser("root");
-            dataSource.setPassword("root");
+            dataSource.setJdbcUrl("jdbc:mysql://10.10.32.62:3306/people_research");
+            dataSource.setUser("chenpeng");
+            dataSource.setPassword("chenpeng1234");
         } catch (PropertyVetoException e) {
             e.printStackTrace();
         }
