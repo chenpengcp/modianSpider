@@ -50,7 +50,7 @@ public class AndroidMarket_huawei_Spider {
 
     public void insert(AndroidSearch androidSearch) throws Exception {
         QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
-        String sql = "INSERT INTO androidSearch_huawei (name,downloads,enter) " +
+        String sql = "INSERT INTO androidSearch_huawei (appName,downloads,enter) " +
                 "VALUES (?,?,?)";
         int update = queryRunner.update(sql, androidSearch.getName(), androidSearch.getDownloads(), androidSearch.getEnter());
         if (update == 1) {

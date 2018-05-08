@@ -67,7 +67,7 @@ public class AndroidMarket_lenovo_Spider {
 
     public void insert(AndroidSearch androidSearch) throws Exception {
         QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
-        String sql = "INSERT INTO androidSearch_lenovo (name,downloads,enter) " +
+        String sql = "INSERT INTO androidSearch_lenovo (appName,downloads,enter) " +
                 "VALUES (?,?,?)";
         int update = queryRunner.update(sql, androidSearch.getName(), androidSearch.getDownloads(), androidSearch.getEnter());
         if (update == 1) {

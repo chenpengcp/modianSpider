@@ -50,7 +50,7 @@ public class AndroidMarket_sogou_Spider {
 
     public void insert(AndroidSearch androidSearch) throws Exception {
         QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
-        String sql = "INSERT INTO androidSearch_sougou (name,downloads,enter) " +
+        String sql = "INSERT INTO androidSearch_sougou (appName,downloads,enter) " +
                 "VALUES (?,?,?)";
         int update = queryRunner.update(sql, androidSearch.getName(), androidSearch.getDownloads(), androidSearch.getEnter());
         if (update == 1) {
