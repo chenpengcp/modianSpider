@@ -2,6 +2,7 @@ package cn.pdmi.modianSpider.core;
 
 import cn.pdmi.modianSpider.pojo.AndroidSearch;
 import cn.pdmi.modianSpider.pojo.AppSearch;
+import cn.pdmi.modianSpider.utils.DateUtils;
 import cn.pdmi.modianSpider.utils.JDBCUtils;
 import cn.pdmi.modianSpider.utils.KeyWordUtils;
 import cn.pdmi.modianSpider.utils.SpiderUtils;
@@ -10,6 +11,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class AndroidMarket_360_Spider {
     //封装数据模型
     public AndroidSearch getAndroidSearch(Document document, String keyWord) {
         AndroidSearch androidSearch = new AndroidSearch();
+        androidSearch.setInsertDate(DateUtils.getDate());
         androidSearch.setName(keyWord);
         //对于有搜索指数的
         if (document.select("ul").get(1).select("li").get(0).select("span.red").html() != null && !"".equals(document.select("ul").get(1).select("li").get(0).select("span.red").html()) &&
@@ -59,9 +62,9 @@ public class AndroidMarket_360_Spider {
 
     public void insert(AndroidSearch androidSearch) throws Exception {
         QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
-        String sql = "INSERT INTO androidSearch_360 (appName,downloads,enter) " +
-                "VALUES (?,?,?)";
-        int update = queryRunner.update(sql, androidSearch.getName(), androidSearch.getDownloads(), androidSearch.getEnter());
+        String sql = "INSERT INTO androidSearch_360 (appName,downloads,enter,insertDate) " +
+                "VALUES (?,?,?,?)";
+        int update = queryRunner.update(sql, androidSearch.getName(), androidSearch.getDownloads(), androidSearch.getEnter(), androidSearch.getInsertDate());
         if (update == 1) {
             System.out.println("success!");
         } else {

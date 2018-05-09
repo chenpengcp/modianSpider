@@ -1,6 +1,7 @@
 package cn.pdmi.modianSpider.core;
 
 import cn.pdmi.modianSpider.pojo.AndroidSearch;
+import cn.pdmi.modianSpider.utils.DateUtils;
 import cn.pdmi.modianSpider.utils.JDBCUtils;
 import cn.pdmi.modianSpider.utils.KeyWordUtils;
 import cn.pdmi.modianSpider.utils.SpiderUtils;
@@ -26,6 +27,7 @@ public class AndroidMarket_anzhi_Spider {
     public AndroidSearch getAndroidSearch(Document document, String keyWord) {
         DecimalFormat df = new DecimalFormat("#");
         AndroidSearch androidSearch = new AndroidSearch();
+        androidSearch.setInsertDate(DateUtils.getDate());
         androidSearch.setName(keyWord);
         if (document.select("div.app_info") != null && document.select("div.app_info").size() > 0) {
             if (keyWord.toLowerCase().equals(document.select("div.app_info").get(0).select("span.app_name a").html().toLowerCase()) || document.select("div.app_info").get(0).select("span.app_name a").html().toLowerCase().contains(keyWord.toLowerCase()) ||
@@ -51,9 +53,9 @@ public class AndroidMarket_anzhi_Spider {
 
     public void insert(AndroidSearch androidSearch) throws Exception {
         QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
-        String sql = "INSERT INTO androidSearch_anzhi (appName,downloads,enter) " +
-                "VALUES (?,?,?)";
-        int update = queryRunner.update(sql, androidSearch.getName(), androidSearch.getDownloads(), androidSearch.getEnter());
+        String sql = "INSERT INTO androidSearch_anzhi (appName,downloads,enter,insertDate) " +
+                "VALUES (?,?,?,?)";
+        int update = queryRunner.update(sql, androidSearch.getName(), androidSearch.getDownloads(), androidSearch.getEnter(), androidSearch.getInsertDate());
         if (update == 1) {
             System.out.println("success!");
         } else {
@@ -72,8 +74,8 @@ public class AndroidMarket_anzhi_Spider {
         for (int i = 0; i < keyWords.size(); i++) {
             AndroidSearch androidSearch = androidMarket_anzhi_Spider.getAndroidSearch(androidMarket_anzhi_Spider.getDocument(SpiderUtils.getAjax("http://www.anzhi.com/search.php?keyword=" + androidMarket_anzhi_Spider.getEncode(keyWords.get(i)))),
                     keyWords.get(i));
-            //androidMarket_anzhi_Spider.insert(androidSearch);
-            System.out.println(androidSearch);
+            androidMarket_anzhi_Spider.insert(androidSearch);
+            //System.out.println(androidSearch);
         }
 
     }

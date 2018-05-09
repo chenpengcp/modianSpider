@@ -29,7 +29,7 @@ public class KeyWordUtils {
 
             excelFileInputStream.close();
             XSSFSheet sheet = workbook.getSheetAt(0);
-            for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+            for (int rowIndex = 0; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
                 // XSSFRow 代表一行数据
                 XSSFRow row = sheet.getRow(rowIndex);
                 XSSFCell cell = row.getCell(row.getFirstCellNum());

@@ -8,6 +8,15 @@ public class AndroidSearch {
     private String name;
     private String downloads;//下载量
     private Integer enter;//是否入驻
+    private String insertDate;
+
+    public String getInsertDate() {
+        return insertDate;
+    }
+
+    public void setInsertDate(String insertDate) {
+        this.insertDate = insertDate;
+    }
 
     public String getName() {
         return name;
@@ -48,6 +57,7 @@ public class AndroidSearch {
                 ", name='" + name + '\'' +
                 ", downloads='" + downloads + '\'' +
                 ", enter=" + enter +
+                ", insertDate='" + insertDate + '\'' +
                 '}';
     }
 }

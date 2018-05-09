@@ -1,10 +1,7 @@
 package cn.pdmi.modianSpider.core;
 
 import cn.pdmi.modianSpider.pojo.AndroidSearch;
-import cn.pdmi.modianSpider.utils.CoolMartSpiderUtils;
-import cn.pdmi.modianSpider.utils.JDBCUtils;
-import cn.pdmi.modianSpider.utils.KeyWordUtils;
-import cn.pdmi.modianSpider.utils.SpiderUtils;
+import cn.pdmi.modianSpider.utils.*;
 import org.apache.commons.dbutils.QueryRunner;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -28,6 +25,7 @@ public class AndroidMarket_coolpad_Spider {
         DecimalFormat df = new DecimalFormat("#");
         AndroidSearch androidSearch = new AndroidSearch();
         androidSearch.setName(keyWord);
+        androidSearch.setInsertDate(DateUtils.getDate());
         if (document.select("div.list-content.line-bottom") != null && document.select("div.list-content.line-bottom").size() > 0) {
             if (keyWord.toLowerCase().equals(document.select("div.list-content.line-bottom").get(0).select("div.content h1").html().toLowerCase()) || document.select("div.list-content.line-bottom").get(0).select("div.content h1").html().toLowerCase().contains(keyWord.toLowerCase()) ||
                     keyWord.toLowerCase().contains(document.select("div.list-content.line-bottom").get(0).select("div.content h1").html().toLowerCase())) {
@@ -52,9 +50,9 @@ public class AndroidMarket_coolpad_Spider {
 
     public void insert(AndroidSearch androidSearch) throws Exception {
         QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
-        String sql = "INSERT INTO androidSearch_coolpad (appName,downloads,enter) " +
-                "VALUES (?,?,?)";
-        int update = queryRunner.update(sql, androidSearch.getName(), androidSearch.getDownloads(), androidSearch.getEnter());
+        String sql = "INSERT INTO androidSearch_coolpad (appName,downloads,enter,insertDate) " +
+                "VALUES (?,?,?,?)";
+        int update = queryRunner.update(sql, androidSearch.getName(), androidSearch.getDownloads(), androidSearch.getEnter(), androidSearch.getInsertDate());
         if (update == 1) {
             System.out.println("success!");
         } else {

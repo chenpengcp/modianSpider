@@ -1,6 +1,7 @@
 package cn.pdmi.modianSpider.core;
 
 import cn.pdmi.modianSpider.pojo.AndroidSearch;
+import cn.pdmi.modianSpider.utils.DateUtils;
 import cn.pdmi.modianSpider.utils.JDBCUtils;
 import cn.pdmi.modianSpider.utils.KeyWordUtils;
 import cn.pdmi.modianSpider.utils.SpiderUtils;
@@ -27,6 +28,7 @@ public class AndroidMarket_meizu_Spider {
         DecimalFormat df = new DecimalFormat("#");
         AndroidSearch androidSearch = new AndroidSearch();
         androidSearch.setName(keyWord);
+        androidSearch.setInsertDate(DateUtils.getDate());
         if (document.select("div.search_one.downloading") != null && document.select("div.search_one.downloading").size() > 0) {
             if (keyWord.toLowerCase().equals(document.select("div.search_one.downloading").get(0).select("div.one_right a.ellipsis").html().toLowerCase()) || document.select("div.search_one.downloading").get(0).select("div.one_right a.ellipsis").html().toLowerCase().contains(keyWord.toLowerCase()) ||
                     keyWord.toLowerCase().contains(document.select("div.search_one.downloading").get(0).select("div.one_right a.ellipsis").html().toLowerCase())) {
@@ -55,9 +57,9 @@ public class AndroidMarket_meizu_Spider {
 
     public void insert(AndroidSearch androidSearch) throws Exception {
         QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
-        String sql = "INSERT INTO androidSearch_meizu (appName,downloads,enter) " +
-                "VALUES (?,?,?)";
-        int update = queryRunner.update(sql, androidSearch.getName(), androidSearch.getDownloads(), androidSearch.getEnter());
+        String sql = "INSERT INTO androidSearch_meizu (appName,downloads,enter,insertDate) " +
+                "VALUES (?,?,?,?)";
+        int update = queryRunner.update(sql, androidSearch.getName(), androidSearch.getDownloads(), androidSearch.getEnter(), androidSearch.getInsertDate());
         if (update == 1) {
             System.out.println("success!");
         } else {
