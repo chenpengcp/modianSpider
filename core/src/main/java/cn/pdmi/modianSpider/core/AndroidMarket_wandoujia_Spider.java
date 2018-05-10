@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by chen_ on 2018/4/24.
  */
-public class AndroidMarket_wandoujia_Spider {
+public class AndroidMarket_wandoujia_Spider implements Runnable {
     //解析网页
     public Document getDocument(String html) {
         Document document = Jsoup.parse(html);
@@ -29,22 +29,23 @@ public class AndroidMarket_wandoujia_Spider {
         AndroidSearch androidSearch = new AndroidSearch();
         androidSearch.setName(keyWord);
         androidSearch.setInsertDate(DateUtils.getDate());
-        if(document.select("div.app-desc")!=null&&document.select("div.app-desc").size()>0){
-        if (keyWord.toLowerCase().equals(document.select("div.app-desc").get(0).select("div.app-title-h2 a.name").html().toLowerCase())||document.select("div.app-desc").get(0).select("div.app-title-h2 a.name").html().toLowerCase().contains(keyWord.toLowerCase())||
-                keyWord.toLowerCase().contains(document.select("div.app-desc").get(0).select("div.app-title-h2 a.name").html().toLowerCase())) {
-            String count = document.select("div.app-desc").get(0).select("div.meta span").html();
-            if (count.endsWith("万人安装")) {
-                androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(0, count.indexOf("万"))) * 10000)));
-            }else
-            if (count.contains("亿人安装")) {
-                androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(0, count.indexOf("亿"))) * 100000000)));
-            }else {
-            androidSearch.setDownloads(count.substring(0,count.indexOf("人")));}
-            androidSearch.setEnter(1);
+        if (document.select("div.app-desc") != null && document.select("div.app-desc").size() > 0) {
+            if (keyWord.toLowerCase().equals(document.select("div.app-desc").get(0).select("div.app-title-h2 a.name").html().toLowerCase()) || document.select("div.app-desc").get(0).select("div.app-title-h2 a.name").html().toLowerCase().contains(keyWord.toLowerCase()) ||
+                    keyWord.toLowerCase().contains(document.select("div.app-desc").get(0).select("div.app-title-h2 a.name").html().toLowerCase())) {
+                String count = document.select("div.app-desc").get(0).select("div.meta span").html();
+                if (count.endsWith("万人安装")) {
+                    androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(0, count.indexOf("万"))) * 10000)));
+                } else if (count.contains("亿人安装")) {
+                    androidSearch.setDownloads(String.valueOf(df.format(Double.parseDouble(count.substring(0, count.indexOf("亿"))) * 100000000)));
+                } else {
+                    androidSearch.setDownloads(count.substring(0, count.indexOf("人")));
+                }
+                androidSearch.setEnter(1);
+            } else {
+                androidSearch.setDownloads("0");
+                androidSearch.setEnter(0);
+            }
         } else {
-            androidSearch.setDownloads("0");
-            androidSearch.setEnter(0);
-        }}else {
             androidSearch.setDownloads("0");
             androidSearch.setEnter(0);
         }
@@ -68,11 +69,21 @@ public class AndroidMarket_wandoujia_Spider {
         return URLEncoder.encode(url, "utf-8");
     }
 
-    public static void main(String[] args) throws Exception {
+    @Override
+    public void run() {
+        AndroidMarket_wandoujia_Spider androidMarket_wandoujia_Spider = new AndroidMarket_wandoujia_Spider();
+        try {
+            androidMarket_wandoujia_Spider.getData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getData() throws Exception {
         AndroidMarket_wandoujia_Spider androidMarket_wandoujia_Spider = new AndroidMarket_wandoujia_Spider();
         List<String> keyWords = KeyWordUtils.getKeyWords("androidExcel");
         for (int i = 0; i < keyWords.size(); i++) {
-            AndroidSearch androidSearch = androidMarket_wandoujia_Spider.getAndroidSearch(androidMarket_wandoujia_Spider.getDocument(SpiderUtils.getAjax("http://www.wandoujia.com/search?key="+androidMarket_wandoujia_Spider.getEncode(keyWords.get(i))+"&source=index")),
+            AndroidSearch androidSearch = androidMarket_wandoujia_Spider.getAndroidSearch(androidMarket_wandoujia_Spider.getDocument(SpiderUtils.getAjax("http://www.wandoujia.com/search?key=" + androidMarket_wandoujia_Spider.getEncode(keyWords.get(i)) + "&source=index")),
                     keyWords.get(i));
             androidMarket_wandoujia_Spider.insert(androidSearch);
             //System.out.println(androidSearch);

@@ -86,6 +86,8 @@ public class AppleSearchSpider {
         dates.add("2018-05-06");
         dates.add("2018-05-07");
         dates.add("2018-05-08");
+        dates.add("2018-05-09");
+        dates.add("2018-05-10");
         List<String> keyWords = KeyWordUtils.getKeyWords("readExcel");
         for (int i = 0; i < keyWords.size(); i++) {
             for (String date : dates

@@ -1,5 +1,7 @@
-package cn.pdmi.modianSpider.core;
+package cn.pdmi.modianSpider.server;
 
+
+import cn.pdmi.modianSpider.core.DataSpider;
 
 /**
  * Created by chen_ on 2018/4/25.

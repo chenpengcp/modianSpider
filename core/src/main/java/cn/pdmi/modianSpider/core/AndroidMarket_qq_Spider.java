@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by chen_ on 2018/4/24.
  */
-public class AndroidMarket_qq_Spider {
+public class AndroidMarket_qq_Spider implements Runnable {
     //解析网页
     public Document getDocument(String html) {
         Document document = Jsoup.parse(html);
@@ -29,7 +29,7 @@ public class AndroidMarket_qq_Spider {
         AndroidSearch androidSearch = new AndroidSearch();
         androidSearch.setName(keyWord);
         androidSearch.setInsertDate(DateUtils.getDate());
-        if (document.select("div.name-line") != null&&document.select("div.name-line").size()>0) {
+        if (document.select("div.name-line") != null && document.select("div.name-line").size() > 0) {
             if (keyWord.toLowerCase().contains(document.select("div.name-line").get(0).select("div.name a.appName").html().toLowerCase()) || document.select("div.name-line").get(0).select("div.name a.appName").html().toLowerCase().contains(keyWord)) {
                 String count = document.select("div.data-box").get(0).select("div.down-line").html();
                 if (count.endsWith("万人下载")) {
@@ -68,7 +68,17 @@ public class AndroidMarket_qq_Spider {
         return URLEncoder.encode(url, "utf-8");
     }
 
-    public static void main(String[] args) throws Exception {
+    @Override
+    public void run() {
+        AndroidMarket_qq_Spider androidMarket_qq_Spider = new AndroidMarket_qq_Spider();
+        try {
+            androidMarket_qq_Spider.getData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getData() throws Exception {
         AndroidMarket_qq_Spider androidMarket_qq_Spider = new AndroidMarket_qq_Spider();
         List<String> keyWords = KeyWordUtils.getKeyWords("androidExcel");
         for (int i = 0; i < keyWords.size(); i++) {

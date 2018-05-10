@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by chen_ on 2018/4/24.
  */
-public class AndroidMarket_huawei_Spider {
+public class AndroidMarket_huawei_Spider implements Runnable {
     //解析网页
     public Document getDocument(String html) {
         Document document = Jsoup.parse(html);
@@ -67,7 +67,17 @@ public class AndroidMarket_huawei_Spider {
         return URLEncoder.encode(url, "utf-8");
     }
 
-    public static void main(String[] args) throws Exception {
+    @Override
+    public void run() {
+        AndroidMarket_huawei_Spider androidMarket_huawei_Spider = new AndroidMarket_huawei_Spider();
+        try {
+            androidMarket_huawei_Spider.getData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getData() throws Exception {
         AndroidMarket_huawei_Spider androidMarket_huawei_Spider = new AndroidMarket_huawei_Spider();
         List<String> keyWords = KeyWordUtils.getKeyWords("androidExcel");
         for (int i = 0; i < keyWords.size(); i++) {
