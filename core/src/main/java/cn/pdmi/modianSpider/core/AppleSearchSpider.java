@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by chen_ on 2018/4/24.
  */
-public class AppleSearchSpider {
+public class AppleSearchSpider implements Runnable {
     //解析网页
     public Document getDocument(String html) {
         Document document = Jsoup.parse(html);
@@ -33,7 +33,7 @@ public class AppleSearchSpider {
             appSearch.setSearchResult(document.select("a.search-no").html().replace("&nbsp;<span class=\"glyphicon glyphicon-trend\"></span>", ""));
         } else {
             appSearch.setSearchIndex("0");
-            if (document.select("div.search-index-list") != null && document.select("div.search-index-list table.table.table-border") != null) {
+            if (document.select("div.search-index-list table.table.table-border tbody tr td") != null && document.select("div.search-index-list table.table.table-border tbody tr td").size()>3) {
                 appSearch.setSearchResult(document.select("div.search-index-list table.table.table-border tbody tr td").get(2).html());
             } else {
                 appSearch.setSearchResult("0");
@@ -59,7 +59,17 @@ public class AppleSearchSpider {
         return URLEncoder.encode(url, "utf-8");
     }
 
-    public static void main(String[] args) throws Exception {
+    @Override
+    public void run() {
+        AppleSearchSpider appleSearchSpider = new AppleSearchSpider();
+        try {
+            appleSearchSpider.getData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getData() throws Exception {
         AppleSearchSpider appleSearchSpider = new AppleSearchSpider();
         ArrayList<String> dates = new ArrayList<>();
         for (int i = 1; i < 5; i++) {
