@@ -14,8 +14,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JrttSpider {
-    public void getData(String max_behot_time, String uid,String keyword) throws Exception {
+public class JrttSpider implements Runnable{
+    private String max_behot_time;
+    private String uid;
+    private String keyword;
+
+    public JrttSpider(String max_behot_time, String uid, String keyword) {
+        this.max_behot_time = max_behot_time;
+        this.uid = uid;
+        this.keyword = keyword;
+    }
+
+    public JrttSpider() {
+    }
+
+    public void getData(String max_behot_time, String uid, String keyword) throws Exception {
         List<JrttModel> list = new ArrayList<>();
         Map<String, String> asCp = TouTiaoUtils.getAsCp();
         String str = HttpSpiderUtils.getAjax("https://www.toutiao.com/pgc/ma/?page_type=1&max_behot_time=" + max_behot_time + "&uid=" + uid + "&media_id=" + uid + "&output=json&is_json=" +
@@ -70,8 +83,8 @@ public class JrttSpider {
                     String uid = href.substring(href.indexOf("r") + 2, href.length() - 1);
                     System.out.println(uid+"==>"+keyword);
                     uids.put(keyword,uid);
-//                    Thread thread = new Thread(new JrttSpider_Thread("",uid,keyword));
-//                    thread.start();
+                    Thread thread = new Thread(new JrttSpider("",uid,keyword));
+                    thread.start();
                 }
             }
         }
@@ -81,13 +94,21 @@ public class JrttSpider {
 
     public static void main(String[] args) throws Exception {
         JrttSpider jrttSpider = new JrttSpider();
-        Map<String, String> uids = jrttSpider.getUids();
-        for (String uid : uids.keySet()
-                ) {
-            jrttSpider.getData("",uid,uids.get(uid));
-        }
-        jrttSpider.getData("","50502346173","人民网");
+//        Map<String, String> uids = jrttSpider.getUids();
+//        for (String uid : uids.keySet()
+//                ) {
+//            jrttSpider.getData("",uid,uids.get(uid));
+//        }
+        //jrttSpider.getData("","50502346173","人民网");
+        jrttSpider.getData("","6028902097","蚌埠新闻网");
     }
 
-
+    @Override
+    public void run() {
+        try {
+            this.getData(max_behot_time, uid, keyword);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

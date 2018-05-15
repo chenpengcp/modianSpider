@@ -1,6 +1,7 @@
 package cn.pdmi.modianSpider.core;
 
 import cn.pdmi.modianSpider.pojo.AppSearch;
+import cn.pdmi.modianSpider.utils.HttpSpiderUtils;
 import cn.pdmi.modianSpider.utils.JDBCUtils;
 import cn.pdmi.modianSpider.utils.KeyWordUtils;
 import cn.pdmi.modianSpider.utils.SpiderUtils;
@@ -102,11 +103,12 @@ public class AppleSearchSpider implements Runnable {
         for (int i = 0; i < keyWords.size(); i++) {
             for (String date : dates
                     ) {
-                AppSearch appSearch = appleSearchSpider.getAppSearch(appleSearchSpider.getDocument(SpiderUtils.getAjax("https://old.qimai.cn/search/index/country/cn/search/" + appleSearchSpider.getEncode(keyWords.get(i)) + "/kdate/" + date)),
+                AppSearch appSearch = appleSearchSpider.getAppSearch(appleSearchSpider.getDocument(HttpSpiderUtils.getUid("https://old.qimai.cn/search/index/country/cn/search/" + appleSearchSpider.getEncode(keyWords.get(i)) + "/kdate/" + date)),
                         keyWords.get(i), date);
                 appleSearchSpider.insert(appSearch);
+                System.out.println(appSearch);
+                Thread.sleep(2*1000);
             }
         }
-
     }
 }
