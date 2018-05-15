@@ -68,10 +68,10 @@ public class JrttSpider {
                 String href = document.select("div.feedBox div div.sections div.userCard.aladdin a.y-box.link").attr("href");
                 if (!"".equals(href.trim())) {
                     String uid = href.substring(href.indexOf("r") + 2, href.length() - 1);
-                    System.out.println(uid+""+keyword);
+                    System.out.println(uid+"==>"+keyword);
                     uids.put(keyword,uid);
-                    Thread thread = new Thread(new JrttSpider_Thread("",uid,keyword));
-                    thread.start();
+//                    Thread thread = new Thread(new JrttSpider_Thread("",uid,keyword));
+//                    thread.start();
                 }
             }
         }
@@ -81,11 +81,11 @@ public class JrttSpider {
 
     public static void main(String[] args) throws Exception {
         JrttSpider jrttSpider = new JrttSpider();
-//        Map<String, String> uids = jrttSpider.getUids();
-//        for (String uid : uids.keySet()
-//                ) {
-//            jrttSpider.getData("",uid,uids.get(uid));
-//        }
+        Map<String, String> uids = jrttSpider.getUids();
+        for (String uid : uids.keySet()
+                ) {
+            jrttSpider.getData("",uid,uids.get(uid));
+        }
         jrttSpider.getData("","50502346173","人民网");
     }
 
