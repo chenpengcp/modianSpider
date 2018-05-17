@@ -25,6 +25,7 @@ public class JrttSpiderUtils {
         }
         //System.out.println("抓取成功！");
         String str = sb.toString();
-        return str;
+        //return str;
+        return str.substring(str.indexOf("{"), str.lastIndexOf("}") + 1);
     }
 }

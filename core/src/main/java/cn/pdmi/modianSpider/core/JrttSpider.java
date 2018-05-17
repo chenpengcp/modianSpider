@@ -1,20 +1,20 @@
 package cn.pdmi.modianSpider.core;
 
+import cn.pdmi.modianSpider.pojo.JrttDataModel;
 import cn.pdmi.modianSpider.pojo.JrttModel;
 import cn.pdmi.modianSpider.utils.*;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class JrttSpider implements Runnable{
+public class JrttSpider implements Runnable {
     private String max_behot_time;
     private String uid;
     private String keyword;
@@ -54,9 +54,10 @@ public class JrttSpider implements Runnable{
         if (jsonObj.getInteger("has_more") == 1) {
             JSONObject object = jsonObj.getJSONObject("next");
             Integer max_behot_time1 = object.getInteger("max_behot_time");
-            Thread.sleep(1 * 1000);
-            this.getData(String.valueOf(max_behot_time1), uid,keyword);
-        }else {
+            Random random = new Random();
+                Thread.sleep(1 * 1000);
+            this.getData(String.valueOf(max_behot_time1), uid, keyword);
+        } else {
             System.out.println("没了！");
         }
     }
@@ -70,37 +71,30 @@ public class JrttSpider implements Runnable{
         return URLEncoder.encode(url, "utf-8");
     }
 
-    public  Map<String,String> getUids() throws Exception {
-        Map<String,String> uids = new HashMap<>();
-        List<String> keyWords = KeyWordUtils.getKeyWords("mediaExcel");
-        for (String keyword : keyWords
+    public Map<String, String> getUids() throws Exception {
+        Map<String, String> uids = new HashMap<>();
+        QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
+        String sql = "SELECT * FROM jrttData WHERE uid!='0'";
+        List<JrttDataModel> list = queryRunner.query(sql, new BeanListHandler<JrttDataModel>(JrttDataModel.class));
+        for (JrttDataModel jrttDataModel : list
                 ) {
-            String html = JrttSpiderUtils.getAjax("https://www.toutiao.com/search/?keyword=" + this.getEncode(keyword));
-            Document document = this.getDocument(html);
-            if (document.select("div.feedBox div div.sections div.userCard.aladdin a.y-box.link") != null) {
-                String href = document.select("div.feedBox div div.sections div.userCard.aladdin a.y-box.link").attr("href");
-                if (!"".equals(href.trim())) {
-                    String uid = href.substring(href.indexOf("r") + 2, href.length() - 1);
-                    System.out.println(uid+"==>"+keyword);
-                    uids.put(keyword,uid);
-                    Thread thread = new Thread(new JrttSpider("",uid,keyword));
-                    thread.start();
-                }
-            }
+            uids.put(jrttDataModel.getName(), jrttDataModel.getUid());
         }
-        System.out.println("uid加载完毕");
         return uids;
     }
 
     public static void main(String[] args) throws Exception {
         JrttSpider jrttSpider = new JrttSpider();
 //        Map<String, String> uids = jrttSpider.getUids();
-//        for (String uid : uids.keySet()
+//        for (String name : uids.keySet()
 //                ) {
-//            jrttSpider.getData("",uid,uids.get(uid));
+//            System.out.println(name + "===>" + uids.get(name));
+//            jrttSpider.getData("", uids.get(name), name);
+////            Thread thread = new Thread(new JrttSpider("", uids.get(name), name));
+////            thread.start();
 //        }
-        //jrttSpider.getData("","50502346173","人民网");
-        jrttSpider.getData("","6028902097","蚌埠新闻网");
+        //jrttSpider.getData("","3363403346","开封网");
+        jrttSpider.getData("", "50502346173", "人民网");
     }
 
     @Override

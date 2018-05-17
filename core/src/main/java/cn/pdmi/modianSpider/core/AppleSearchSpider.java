@@ -34,7 +34,7 @@ public class AppleSearchSpider implements Runnable {
             appSearch.setSearchResult(document.select("a.search-no").html().replace("&nbsp;<span class=\"glyphicon glyphicon-trend\"></span>", ""));
         } else {
             appSearch.setSearchIndex("0");
-            if (document.select("div.search-index-list table.table.table-border tbody tr td") != null && document.select("div.search-index-list table.table.table-border tbody tr td").size()>3) {
+            if (document.select("div.search-index-list table.table.table-border tbody tr td") != null && document.select("div.search-index-list table.table.table-border tbody tr td").size() > 3) {
                 appSearch.setSearchResult(document.select("div.search-index-list table.table.table-border tbody tr td").get(2).html());
             } else {
                 appSearch.setSearchResult("0");
@@ -89,25 +89,23 @@ public class AppleSearchSpider implements Runnable {
         }
         dates.add("2018-01-31");
         dates.add("2018-03-31");
-        dates.add("2018-05-01");
-        dates.add("2018-05-02");
-        dates.add("2018-05-03");
-        dates.add("2018-05-04");
-        dates.add("2018-05-05");
-        dates.add("2018-05-06");
-        dates.add("2018-05-07");
-        dates.add("2018-05-08");
-        dates.add("2018-05-09");
-        dates.add("2018-05-10");
+        for (int i = 0; i < 17; i++) {
+            StringBuffer sb = new StringBuffer();
+            sb.append("2018-05-");
+            if (i < 10) {
+                sb.append(0).append(i);
+            } else {
+                sb.append(i);
+            }
+            dates.add(sb.toString());
+        }
         List<String> keyWords = KeyWordUtils.getKeyWords("readExcel");
         for (int i = 0; i < keyWords.size(); i++) {
             for (String date : dates
                     ) {
-                AppSearch appSearch = appleSearchSpider.getAppSearch(appleSearchSpider.getDocument(HttpSpiderUtils.getUid("https://old.qimai.cn/search/index/country/cn/search/" + appleSearchSpider.getEncode(keyWords.get(i)) + "/kdate/" + date)),
+                AppSearch appSearch = appleSearchSpider.getAppSearch(appleSearchSpider.getDocument(SpiderUtils.getAjax("https://old.qimai.cn/search/index/country/cn/search/" + appleSearchSpider.getEncode(keyWords.get(i)) + "/kdate/" + date)),
                         keyWords.get(i), date);
                 appleSearchSpider.insert(appSearch);
-                System.out.println(appSearch);
-                Thread.sleep(2*1000);
             }
         }
     }
