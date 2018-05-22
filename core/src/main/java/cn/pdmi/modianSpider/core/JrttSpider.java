@@ -7,14 +7,18 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.net.URLEncoder;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class JrttSpider implements Runnable {
+    private static ExecutorService executorService = Executors.newCachedThreadPool();
     private String max_behot_time;
     private String uid;
     private String keyword;
@@ -29,10 +33,16 @@ public class JrttSpider implements Runnable {
     }
 
     public void getData(String max_behot_time, String uid, String keyword) throws Exception {
+        String str = "";
         List<JrttModel> list = new ArrayList<>();
         Map<String, String> asCp = TouTiaoUtils.getAsCp();
-        String str = HttpSpiderUtils.getAjax("https://www.toutiao.com/pgc/ma/?page_type=1&max_behot_time=" + max_behot_time + "&uid=" + uid + "&media_id=" + uid + "&output=json&is_json=" +
-                "1&count=20&from=user_profile_app&version=2&as=" + asCp.get("as") + "&cp=" + asCp.get("cp"));
+        while (true) {
+            str = HttpSpiderUtils.getAjax("https://www.toutiao.com/pgc/ma/?page_type=1&max_behot_time=" + max_behot_time + "&uid=" + uid + "&media_id=" + uid + "&output=json&is_json=" +
+                    "1&count=20&from=user_profile_app&version=2&as=" + asCp.get("as") + "&cp=" + asCp.get("cp"));
+            if (!"".equals(str)) {
+                break;
+            }
+        }
         JSONObject jsonObj = JSON.parseObject(str);
         JSONArray dataArray = jsonObj.getJSONArray("data");
         JSONObject data = null;
@@ -49,16 +59,34 @@ public class JrttSpider implements Runnable {
         }
         for (JrttModel jm : list
                 ) {
-            System.out.println(jm);
+            this.insert(jm);
         }
         if (jsonObj.getInteger("has_more") == 1) {
             JSONObject object = jsonObj.getJSONObject("next");
             Integer max_behot_time1 = object.getInteger("max_behot_time");
-            Random random = new Random();
-                Thread.sleep(1 * 1000);
-            this.getData(String.valueOf(max_behot_time1), uid, keyword);
+            Thread.sleep(1 * 1000);
+            System.out.println("===================================>" + Thread.currentThread().getName());
+            executorService.execute(new JrttSpider(String.valueOf(max_behot_time1), uid, keyword));
         } else {
             System.out.println("没了！");
+        }
+    }
+
+    public void insert(JrttModel jrttModel) throws Exception {
+        QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
+        String sql1 = "SELECT * FROM jrtt_article where NAME=? AND title=?";
+        JrttModel model = queryRunner.query(sql1, new BeanHandler<JrttModel>(JrttModel.class), jrttModel.getName(), jrttModel.getTitle());
+        if (model == null) {
+            String sql2 = "INSERT INTO jrtt_article (name,title,comment_count,read_count,create_time,insertDate) " +
+                    "VALUES (?,?,?,?,?,?)";
+            int update = queryRunner.update(sql2, jrttModel.getName(), jrttModel.getTitle(), jrttModel.getComment_count(), jrttModel.getRead_count(), jrttModel.getCreate_time(), jrttModel.getInsertDate());
+            if (update == 1) {
+                System.out.println("success!");
+            } else {
+                System.out.println("插入失败！");
+            }
+        } else {
+            System.out.println("第" + model.getId() + "条");
         }
     }
 

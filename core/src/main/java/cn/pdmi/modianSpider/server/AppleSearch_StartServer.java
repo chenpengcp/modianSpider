@@ -2,9 +2,13 @@ package cn.pdmi.modianSpider.server;
 
 import cn.pdmi.modianSpider.core.*;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class AppleSearch_StartServer {
     public static void main(String[] args) {
-        Thread thread = new Thread(new AppleSearchSpider());
-        thread.start();
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        executorService.execute(new AppleSearchSpider());
+        executorService.shutdown();
     }
 }

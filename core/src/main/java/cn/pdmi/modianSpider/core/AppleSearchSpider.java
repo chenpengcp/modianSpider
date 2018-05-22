@@ -89,15 +89,19 @@ public class AppleSearchSpider implements Runnable {
         }
         dates.add("2018-01-31");
         dates.add("2018-03-31");
-        for (int i = 0; i < 17; i++) {
+        for (int i = 5; i < 6; i++) {
             StringBuffer sb = new StringBuffer();
-            sb.append("2018-05-");
-            if (i < 10) {
-                sb.append(0).append(i);
-            } else {
-                sb.append(i);
+            sb.append("2018-0").append(i);
+            for (int j = 1; j < 22; j++) {
+                StringBuffer sb2 = new StringBuffer();
+                sb2.append("-");
+                if (j < 10) {
+                    sb2.append("0").append(j);
+                } else {
+                    sb2.append(j);
+                }
+                dates.add(sb.toString() + sb2.toString());
             }
-            dates.add(sb.toString());
         }
         List<String> keyWords = KeyWordUtils.getKeyWords("readExcel");
         for (int i = 0; i < keyWords.size(); i++) {

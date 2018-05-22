@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Random;
 
 public class HttpSpiderUtils {
+
     public static String getAjax(String url) {
         String str = "";
         try {
@@ -44,7 +45,7 @@ public class HttpSpiderUtils {
             return str.substring(str.indexOf("{"), str.lastIndexOf("}") + 1);
         } catch (Exception e) {
             System.out.println("超时，重新连接！");
-            return HttpSpiderUtils.getAjax(url);
+            return str;
         }
     }
 
