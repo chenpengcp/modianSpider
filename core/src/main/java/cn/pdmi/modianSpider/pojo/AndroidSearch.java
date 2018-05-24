@@ -6,9 +6,18 @@ package cn.pdmi.modianSpider.pojo;
 public class AndroidSearch {
     private Integer id;
     private String name;
+    private String mediaName;
     private String downloads;//下载量
     private Integer enter;//是否入驻
     private String insertDate;
+
+    public String getMediaName() {
+        return mediaName;
+    }
+
+    public void setMediaName(String mediaName) {
+        this.mediaName = mediaName;
+    }
 
     public String getInsertDate() {
         return insertDate;

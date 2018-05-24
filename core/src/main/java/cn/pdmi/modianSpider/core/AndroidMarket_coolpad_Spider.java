@@ -9,6 +9,7 @@ import org.jsoup.nodes.Document;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by chen_ on 2018/4/24.
@@ -50,9 +51,9 @@ public class AndroidMarket_coolpad_Spider implements Runnable {
 
     public void insert(AndroidSearch androidSearch) throws Exception {
         QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
-        String sql = "INSERT INTO androidSearch_coolpad (appName,downloads,enter,insertDate) " +
-                "VALUES (?,?,?,?)";
-        int update = queryRunner.update(sql, androidSearch.getName(), androidSearch.getDownloads(), androidSearch.getEnter(), androidSearch.getInsertDate());
+        String sql = "INSERT INTO androidSearch_coolpad (mediaName,appName,downloads,enter,insertDate) " +
+                "VALUES (?,?,?,?,?)";
+        int update = queryRunner.update(sql, androidSearch.getMediaName(), androidSearch.getName(), androidSearch.getDownloads(), androidSearch.getEnter(), androidSearch.getInsertDate());
         if (update == 1) {
             System.out.println("success!");
         } else {
@@ -77,13 +78,23 @@ public class AndroidMarket_coolpad_Spider implements Runnable {
 
     public void getData() throws Exception {
         AndroidMarket_coolpad_Spider androidMarket_coolpad_Spider = new AndroidMarket_coolpad_Spider();
-        List<String> keyWords = KeyWordUtils.getKeyWords("androidExcel");
-        for (int i = 0; i < keyWords.size(); i++) {
-            AndroidSearch androidSearch = androidMarket_coolpad_Spider.getAndroidSearch(androidMarket_coolpad_Spider.getDocument(CoolMartSpiderUtils.getAjax("http://www.coolmart.net.cn/components/search.html", keyWords.get(i))),
-                    keyWords.get(i));
-            androidMarket_coolpad_Spider.insert(androidSearch);
-            //System.out.println(androidSearch);
+        Map<Integer, Map<String, String>> map = KeyWordUtils.getKeyWords("androidExcel");
+        for (int i = 0; i < map.keySet().size(); i++) {
+            Map<String, String> keyWords = map.get(i);
+            for (String key : keyWords.keySet()
+                    ) {
+                if (!"".equals(keyWords.get(key).trim())) {
+                    AndroidSearch androidSearch = androidMarket_coolpad_Spider.getAndroidSearch(androidMarket_coolpad_Spider.getDocument(CoolMartSpiderUtils.getAjax("http://www.coolmart.net.cn/components/search.html", keyWords.get(key))),
+                            keyWords.get(key));
+                    androidSearch.setMediaName(key);
+                    androidMarket_coolpad_Spider.insert(androidSearch);
+                } else {
+                    AndroidSearch androidSearch = new AndroidSearch();
+                    androidSearch.setMediaName(key);
+                    androidSearch.setInsertDate(DateUtils.getDate());
+                    androidMarket_coolpad_Spider.insert(androidSearch);
+                }
+            }
         }
-
     }
 }

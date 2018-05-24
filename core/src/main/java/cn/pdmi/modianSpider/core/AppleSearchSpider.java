@@ -49,9 +49,9 @@ public class AppleSearchSpider implements Runnable {
                 "VALUES (?,?,?,?)";
         int update = queryRunner.update(sql, appSearch.getName(), appSearch.getSearchIndex(), appSearch.getSearchResult(), appSearch.getDate());
         if (update == 1) {
-            System.out.println("success!");
+            //System.out.println("success!");
         } else {
-            System.out.println("插入失败！");
+            //System.out.println("插入失败！");
         }
 
     }
@@ -92,7 +92,7 @@ public class AppleSearchSpider implements Runnable {
         for (int i = 5; i < 6; i++) {
             StringBuffer sb = new StringBuffer();
             sb.append("2018-0").append(i);
-            for (int j = 1; j < 22; j++) {
+            for (int j = 1; j < 23; j++) {
                 StringBuffer sb2 = new StringBuffer();
                 sb2.append("-");
                 if (j < 10) {
@@ -103,7 +103,7 @@ public class AppleSearchSpider implements Runnable {
                 dates.add(sb.toString() + sb2.toString());
             }
         }
-        List<String> keyWords = KeyWordUtils.getKeyWords("readExcel");
+        List<String> keyWords = KeyWordUtils.getKeyWordsList("readExcel");
         for (int i = 0; i < keyWords.size(); i++) {
             for (String date : dates
                     ) {

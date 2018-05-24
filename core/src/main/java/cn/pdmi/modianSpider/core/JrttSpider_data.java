@@ -40,7 +40,7 @@ public class JrttSpider_data implements Runnable {
     }
 
     public void getUids() throws Exception {
-        List<String> keyWords = KeyWordUtils.getKeyWords("mediaExcel");
+        List<String> keyWords = KeyWordUtils.getKeyWordsList("mediaExcel");
         for (String keyword : keyWords
                 ) {
             String html = JrttSpiderUtils.getAjax("https://www.toutiao.com/search/?keyword=" + this.getEncode(keyword));
@@ -80,7 +80,7 @@ public class JrttSpider_data implements Runnable {
             Document document = this.getDocument(html);
             jrttDataModel.setFollow(document.select("div.right div dl.statistics dt a h3 em i").html());
             jrttDataModel.setFans(document.select("div.right div dl.statistics dd a h3 em").html().contains("万") ? String.valueOf(Double.parseDouble(document.select("div.right div dl.statistics dd a h3 em i").html()) * 10000)
-                    .substring(0,String.valueOf(Double.parseDouble(document.select("div.right div dl.statistics dd a h3 em i").html()) * 10000).lastIndexOf(".")) : document.select("div.right div dl.statistics dd a h3 em i").html());
+                    .substring(0, String.valueOf(Double.parseDouble(document.select("div.right div dl.statistics dd a h3 em i").html()) * 10000).lastIndexOf(".")) : document.select("div.right div dl.statistics dd a h3 em i").html());
         }
         this.insert(jrttDataModel);
     }

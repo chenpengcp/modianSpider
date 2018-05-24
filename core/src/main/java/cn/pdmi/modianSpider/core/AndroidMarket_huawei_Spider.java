@@ -12,6 +12,7 @@ import org.jsoup.nodes.Document;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by chen_ on 2018/4/24.
@@ -52,9 +53,9 @@ public class AndroidMarket_huawei_Spider implements Runnable {
 
     public void insert(AndroidSearch androidSearch) throws Exception {
         QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
-        String sql = "INSERT INTO androidSearch_huawei (appName,downloads,enter,insertDate) " +
-                "VALUES (?,?,?,?)";
-        int update = queryRunner.update(sql, androidSearch.getName(), androidSearch.getDownloads(), androidSearch.getEnter(), androidSearch.getInsertDate());
+        String sql = "INSERT INTO androidSearch_huawei (mediaName,appName,downloads,enter,insertDate) " +
+                "VALUES (?,?,?,?,?)";
+        int update = queryRunner.update(sql, androidSearch.getMediaName(), androidSearch.getName(), androidSearch.getDownloads(), androidSearch.getEnter(), androidSearch.getInsertDate());
         if (update == 1) {
             System.out.println("success!");
         } else {
@@ -79,13 +80,23 @@ public class AndroidMarket_huawei_Spider implements Runnable {
 
     public void getData() throws Exception {
         AndroidMarket_huawei_Spider androidMarket_huawei_Spider = new AndroidMarket_huawei_Spider();
-        List<String> keyWords = KeyWordUtils.getKeyWords("androidExcel");
-        for (int i = 0; i < keyWords.size(); i++) {
-            AndroidSearch androidSearch = androidMarket_huawei_Spider.getAndroidSearch(androidMarket_huawei_Spider.getDocument(SpiderUtils.getAjax("http://app.hicloud.com/search/" + androidMarket_huawei_Spider.getEncode(keyWords.get(i)))),
-                    keyWords.get(i));
-            androidMarket_huawei_Spider.insert(androidSearch);
-            //System.out.println(androidSearch);
+        Map<Integer, Map<String, String>> map = KeyWordUtils.getKeyWords("androidExcel");
+        for (int i = 0; i < map.keySet().size(); i++) {
+            Map<String, String> keyWords = map.get(i);
+            for (String key : keyWords.keySet()
+                    ) {
+                if (!"".equals(keyWords.get(key).trim())) {
+                    AndroidSearch androidSearch = androidMarket_huawei_Spider.getAndroidSearch(androidMarket_huawei_Spider.getDocument(SpiderUtils.getAjax("http://app.hicloud.com/search/" + androidMarket_huawei_Spider.getEncode(keyWords.get(key)))),
+                            keyWords.get(key));
+                    androidSearch.setMediaName(key);
+                    androidMarket_huawei_Spider.insert(androidSearch);
+                } else {
+                    AndroidSearch androidSearch = new AndroidSearch();
+                    androidSearch.setMediaName(key);
+                    androidSearch.setInsertDate(DateUtils.getDate());
+                    androidMarket_huawei_Spider.insert(androidSearch);
+                }
+            }
         }
-
     }
 }

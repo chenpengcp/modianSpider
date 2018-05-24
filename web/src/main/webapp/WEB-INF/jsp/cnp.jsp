@@ -15,8 +15,13 @@
 <body>
 <h3 class="title"><span>霸占那丑锅-丑锅个站</span></h3>
 <img src="${pageContext.request.contextPath}/image/cnp.JPG">
-<div><input type="submit" name="Submit" value="点击查看丑锅集资" style="width: 300px;height: 100px;color: crimson;font-size: larger;font-weight: bold"
+<div><input type="submit" name="Submit" value="点击查看丑锅集资"
+            style="width: 300px;height: 100px;color: crimson;font-size: larger;font-weight: bold"
             onclick=window.open("${pageContext.request.contextPath}/servlet/dataServlet")>
+</div>
+<div><input type="submit" name="Submit" value="爬取搜索数据"
+            style="width: 300px;height: 100px;color: crimson;font-size: larger;font-weight: bold"
+            onclick=window.open("${pageContext.request.contextPath}/servlet/appSearchServlet")>
 </div>
 </body>
 </html>

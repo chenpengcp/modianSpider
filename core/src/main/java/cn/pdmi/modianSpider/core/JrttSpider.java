@@ -65,7 +65,7 @@ public class JrttSpider implements Runnable {
             JSONObject object = jsonObj.getJSONObject("next");
             Integer max_behot_time1 = object.getInteger("max_behot_time");
             Thread.sleep(1 * 1000);
-            System.out.println("===================================>" + Thread.currentThread().getName());
+           //System.out.println("===================================>" + Thread.currentThread().getName());
             executorService.execute(new JrttSpider(String.valueOf(max_behot_time1), uid, keyword));
         } else {
             System.out.println("没了！");
@@ -81,12 +81,12 @@ public class JrttSpider implements Runnable {
                     "VALUES (?,?,?,?,?,?)";
             int update = queryRunner.update(sql2, jrttModel.getName(), jrttModel.getTitle(), jrttModel.getComment_count(), jrttModel.getRead_count(), jrttModel.getCreate_time(), jrttModel.getInsertDate());
             if (update == 1) {
-                System.out.println("success!");
+                //System.out.println("success!");
             } else {
-                System.out.println("插入失败！");
+                //System.out.println("插入失败！");
             }
         } else {
-            System.out.println("第" + model.getId() + "条");
+            //System.out.println("第" + model.getId() + "条");
         }
     }
 
@@ -111,19 +111,19 @@ public class JrttSpider implements Runnable {
         return uids;
     }
 
-    public static void main(String[] args) throws Exception {
-        JrttSpider jrttSpider = new JrttSpider();
-//        Map<String, String> uids = jrttSpider.getUids();
-//        for (String name : uids.keySet()
-//                ) {
-//            System.out.println(name + "===>" + uids.get(name));
-//            jrttSpider.getData("", uids.get(name), name);
-////            Thread thread = new Thread(new JrttSpider("", uids.get(name), name));
-////            thread.start();
-//        }
-        //jrttSpider.getData("","3363403346","开封网");
-        jrttSpider.getData("", "50502346173", "人民网");
-    }
+//    public static void main(String[] args) throws Exception {
+//        JrttSpider jrttSpider = new JrttSpider();
+////        Map<String, String> uids = jrttSpider.getUids();
+////        for (String name : uids.keySet()
+////                ) {
+////            System.out.println(name + "===>" + uids.get(name));
+////            jrttSpider.getData("", uids.get(name), name);
+//////            Thread thread = new Thread(new JrttSpider("", uids.get(name), name));
+//////            thread.start();
+////        }
+//        //jrttSpider.getData("","3363403346","开封网");
+//        jrttSpider.getData("", "50502346173", "人民网");
+//    }
 
     @Override
     public void run() {
