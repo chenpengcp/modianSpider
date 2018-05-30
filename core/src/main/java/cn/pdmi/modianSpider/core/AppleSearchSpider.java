@@ -1,10 +1,7 @@
 package cn.pdmi.modianSpider.core;
 
 import cn.pdmi.modianSpider.pojo.AppSearch;
-import cn.pdmi.modianSpider.utils.HttpSpiderUtils;
-import cn.pdmi.modianSpider.utils.JDBCUtils;
-import cn.pdmi.modianSpider.utils.KeyWordUtils;
-import cn.pdmi.modianSpider.utils.SpiderUtils;
+import cn.pdmi.modianSpider.utils.*;
 import org.apache.commons.dbutils.QueryRunner;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -44,14 +41,14 @@ public class AppleSearchSpider implements Runnable {
     }
 
     public void insert(AppSearch appSearch) throws Exception {
-        QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
+        QueryRunner queryRunner = new QueryRunner(Modian_JDBCUtils.getDataSource());
         String sql = "INSERT INTO app_store_search (appName,searchIndex,searchResult,date) " +
                 "VALUES (?,?,?,?)";
         int update = queryRunner.update(sql, appSearch.getName(), appSearch.getSearchIndex(), appSearch.getSearchResult(), appSearch.getDate());
         if (update == 1) {
-            //System.out.println("success!");
+            System.out.println("success!");
         } else {
-            //System.out.println("插入失败！");
+            System.out.println("插入失败！");
         }
 
     }
@@ -92,7 +89,7 @@ public class AppleSearchSpider implements Runnable {
         for (int i = 5; i < 6; i++) {
             StringBuffer sb = new StringBuffer();
             sb.append("2018-0").append(i);
-            for (int j = 1; j < 23; j++) {
+            for (int j = 1; j < 26; j++) {
                 StringBuffer sb2 = new StringBuffer();
                 sb2.append("-");
                 if (j < 10) {
@@ -103,7 +100,7 @@ public class AppleSearchSpider implements Runnable {
                 dates.add(sb.toString() + sb2.toString());
             }
         }
-        List<String> keyWords = KeyWordUtils.getKeyWordsList("readExcel");
+        List<String> keyWords = KeyWordUtils.getKeyWordsList("xiubu");
         for (int i = 0; i < keyWords.size(); i++) {
             for (String date : dates
                     ) {

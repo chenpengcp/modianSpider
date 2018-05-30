@@ -18,17 +18,17 @@ import java.util.concurrent.Executors;
  * Created by chen_ on 2018/4/26.
  */
 public class AppSearchServlet extends HttpServlet {
+    private static ExecutorService executorService = Executors.newCachedThreadPool();
     private DataService dataService = new DataService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JrttSpider jrttSpider = new JrttSpider();
         try {
-            jrttSpider.getData("", "50502346173", "人民网");
+            executorService.submit(new JrttSpider("", "50502346173", "人民网"));
+            req.getRequestDispatcher("/WEB-INF/jsp/test.jsp").forward(req,resp);
         } catch (Exception e) {
-
         }
-        //req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req,resp);
+
     }
 
     @Override

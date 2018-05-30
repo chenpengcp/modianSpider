@@ -1,6 +1,7 @@
 package cn.pdmi.modianSpider.core;
 
 import cn.pdmi.modianSpider.pojo.SingletonModel;
+import cn.pdmi.modianSpider.utils.HttpSpiderUtils;
 import cn.pdmi.modianSpider.utils.JDBCUtils;
 import cn.pdmi.modianSpider.utils.Modian_JDBCUtils;
 import cn.pdmi.modianSpider.utils.SpiderUtils;

@@ -44,7 +44,7 @@ public class HttpSpiderUtils {
             httpClient.close();
             return str.substring(str.indexOf("{"), str.lastIndexOf("}") + 1);
         } catch (Exception e) {
-            System.out.println("超时，重新连接！");
+            //System.out.println("超时，重新连接！");
             return str;
         }
     }

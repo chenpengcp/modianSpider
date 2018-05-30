@@ -24,7 +24,7 @@ public class Modian_JDBCUtils {
 //            dataSource.setPassword("chenpeng1234");
 
             dataSource.setDriverClass("com.mysql.jdbc.Driver");
-            dataSource.setJdbcUrl("jdbc:mysql://127.0.0.1:3306/modian");
+            dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/modian");
             dataSource.setUser("root");
             dataSource.setPassword("root");
         } catch (PropertyVetoException e) {

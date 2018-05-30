@@ -10,7 +10,7 @@
 <%@ page isELIgnored="false" %>
 <html>
 <head>
-    <title>丑锅的集资</title>
+    <title>丑锅十熊</title>
     <script src="${pageContext.request.contextPath}/js/echarts.min.js"></script>
 </head>
 <body>

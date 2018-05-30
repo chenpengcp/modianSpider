@@ -21,7 +21,7 @@ public class DataServlet extends HttpServlet{
         for (int i = 0; i <dataModels.size() ; i++) {
             req.setAttribute("dataModel"+i,dataModels.get(i));
         }
-        req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req,resp);
+        //req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req,resp);
     }
 
     @Override
