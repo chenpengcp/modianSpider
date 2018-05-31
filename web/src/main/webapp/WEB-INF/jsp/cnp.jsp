@@ -146,13 +146,34 @@
                     </div>
                     <div class="tab-pane" id="tab2" style="margin-left: 200px">
                         <div class="row-fluid">
-                            <div class="span6">
+                            <div class="span4">
+                                <p>
+                                    <small>输入自己的摩点id可以查询自己的集资金额.</small>
+                                </p>
                                 <div class="input-append" style="margin-top: 20px">
                                     <input class="span2" id="appendedInputButton" type="text"
-                                           style="width:250px ;margin-left: 50px">
-                                    <button class="btn" type="button">输入摩点id查询自己的集资额</button>
+                                           style="width:250px ;">
+                                    <button class="btn" type="button" onclick="aaa()">查询</button>
                                 </div>
-                                <div id="main" style="width: 1800px;height:700px;"></div>
+                                <div id="an">
+                                    <button class="btn btn-block" type="button"
+                                            onclick=window.open("${pageContext.request.contextPath}/servlet/dataServlet")>
+                                        点击查看源推集资榜前十
+                                    </button>
+                                    <button class="btn btn-block" type="button"
+                                            onclick=window.open("${pageContext.request.contextPath}/servlet/teamServlet")>
+                                        点击查看全团集资情况
+                                    </button>
+                                    <button class="btn btn-block" type="button">点击查看近期pk</button>
+                                    <button class="btn btn-block" type="button">点击查看源推集资结构</button>
+                                </div>
+                                <div id="gr">
+                                    <img src="${pageContext.request.contextPath}/image/1.JPG" class="img-circle">
+                                </div>
+                            </div>
+                            <div class="span1">
+                            </div>
+                            <div class="span7" id="pm">
                             </div>
                             <%--<div class="span6">--%>
                             <%--<div><input type="submit" name="Submit" value="点击查看锅推十熊"--%>
@@ -193,12 +214,12 @@
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="collapseTwo" class="panel-collapse collapse">
+                                        <div id="collapseTwo" class="panel-collapse collapse in">
                                             <div class="panel-body">
-                                                <p class="text-left">
-                                                    2015年7月25日，参加SNH48第二届“梦想高飞”总选举演唱会，并作为五期生亮相出道；同年12月4日，参加《剧场女神》公演正式出道。2016年1月，参加优酷土豆国民偶像养成真人秀《国民美少女》从而受到关注；随后因甜美清纯的外貌被日媒评为“四千年一遇的美少女”；同年4月，与张柏芝、Bigbang成员T.O.P共同主演动作片《失控·幽灵飞车》，在片中饰演张柏芝的妹妹，与张柏芝一起飞车脱险，上演速度与激情，这也是费沁源的首部电影作品；7月30日，参加
-                                                    “SNH48第三届总选举”发布演唱会，获得第22名。2018年2月3日，SNH48首次大重组后，重新分队至SNH48 Team
-                                                    HII。</p>
+                                                <p class="text-left">2015年7月25日，五期生亮相出道；同年12月4日，参加《剧场女神》公演正式出道。</p>
+                                                <p class="text-left">2016年7月30日，参加SNH48第三届总选举发布演唱会，获得第22名。</p>
+                                                <p class="text-left">2016年7月30日，参加SNH48第四届总选举发布演唱会，获得第40名。</p>
+                                                <p class="text-left">2018年2月3日，SNH48首次大重组后，重新分队至SNH48 Team HII。</p>
                                             </div>
                                         </div>
                                     </div>
@@ -211,10 +232,55 @@
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="collapseThree" class="panel-collapse collapse">
+                                        <div id="collapseThree" class="panel-collapse collapse in">
                                             <div class="panel-body">
                                                 <p class="text-left">失控·幽灵飞车</p>
                                                 <p class="text-left">贴身校花</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                   href="#collapseFour">
+                                                    费沁源的yyh：
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseFour" class="panel-collapse collapse in">
+                                            <div class="panel-body">
+                                                <p class="text-left">应援会链接</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                   href="#collapseFive">
+                                                    费沁源集资链接：
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseFive" class="panel-collapse collapse in">
+                                            <div class="panel-body">
+                                                <p class="text-left">集资链接</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                   href="#collapseSix">
+                                                    费沁源的安利作品：
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseSix" class="panel-collapse collapse in">
+                                            <div class="panel-body">
+                                                <p class="text-left">b站链接</p>
                                             </div>
                                         </div>
                                     </div>
@@ -441,37 +507,39 @@
 </script>
 <script>
     $(document).ready(function () {
+        var s = '<table class="table table-striped table-hover"><caption>集资总榜</caption><thead><tr><th>id</th><th>成员</th><th>金额</th><th>票数</th><th>队伍</th></tr></thead><tbody>';
         $.get({
-            url: "${pageContext.request.contextPath}/servlet/dataServlet",
-            success: function (data) {
-                // 指定图表的配置项和数据
-                var option = {
-                    title: {
-                        text: '丑锅的总集资'
-                    },
-                    tooltip: {},
-                    legend: {
-                        data: ['钱']
-                    },
-                    xAxis: {
-                        data: ["${dataModel0.title}", "${dataModel1.title}", "${dataModel2.title}", "${dataModel3.title}", "${dataModel4.title}"]
-                    },
-                    yAxis: {},
-                    series: [{
-                        name: '钱',
-                        type: 'bar',
-                        data: [parseFloat("${dataModel0.totalMoney}"), parseFloat("${dataModel1.totalMoney}"), parseFloat("${dataModel2.totalMoney}"), parseFloat("${dataModel3.totalMoney}"), parseFloat("${dataModel4.totalMoney}")]
-                    }]
-                };
-                // alert("数据：" + data + "\n状态：" + status);
-                // 基于准备好的dom，初始化echarts实例
-                var myChart = echarts.init(document.getElementById('main'));
-
-                // 使用刚指定的配置项和数据显示图表。
-                myChart.setOption(option);
+            url: "${pageContext.request.contextPath}/servlet/jzbServlet",
+            dataType: 'json',
+            success: function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    //result[i]表示获得第i个json对象即JSONObject
+                    //result[i]通过.字段名称即可获得指定字段的值
+                    s += '<tr><td>' + result[i].id + '</td><td>' + result[i].xm + '</td><td>' + result[i].je + '</td><td>' + result[i].ps + '</td><td>' + result[i].dw + '</td></tr>';
+                }
+                s = s + '</tbody></table>';
+                $("#pm").html(s);
             }
         });
+
     });
 </script>
+<script>
+    function aaa() {
+        var id = $("#appendedInputButton").val();
+        //alert(id);
+        $.ajax({
+            type: 'POST',
+            url: "${pageContext.request.contextPath}/servlet/selectServlet",
+            data: {id: id},
+            dataType: 'json',
+            success: function (result) {
+                //alert(result[0].je);
+                $("#gr").html("<p class=\"lead\" style=\"padding-top: 130px\">" + "你的集资金额为<strong>" + result[0].je + "</strong>!在源推中排名第<strong>" + result[0].pm + "</strong>位！谢谢你为源源集资！</p>");
+            }
+        });
+    }
+</script>
+
 </body>
 </html>

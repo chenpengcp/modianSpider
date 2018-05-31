@@ -10,33 +10,33 @@
 <%@ page isELIgnored="false" %>
 <html>
 <head>
-    <title>丑锅十熊</title>
+    <name>源推前十榜：</name>
     <script src="${pageContext.request.contextPath}/js/echarts.min.js"></script>
 </head>
 <body>
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-<div id="main" style="width: 1800px;height:700px;"></div>
+<div id="main" style="width: 1600px;height:600px;"></div>
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'));
 
     // 指定图表的配置项和数据
     var option = {
-        title: {
-            text: '丑锅的总集资'
+        name: {
+            text: '源推集资前十'
         },
         tooltip: {},
         legend: {
-            data: ['钱']
+            data: ['金额']
         },
         xAxis: {
-            data: ["${dataModel0.title}", "${dataModel1.title}", "${dataModel2.title}", "${dataModel3.title}", "${dataModel4.title}"]
+            data: ["${dataModel0.name}", "${dataModel1.name}", "${dataModel2.name}", "${dataModel3.name}", "${dataModel4.name}", "${dataModel5.name}", "${dataModel6.name}", "${dataModel7.name}", "${dataModel8.name}", "${dataModel9.name}"]
         },
         yAxis: {},
         series: [{
-            name: '钱',
+            name: '金额',
             type: 'bar',
-            data: [parseFloat("${dataModel0.totalMoney}"), parseFloat("${dataModel1.totalMoney}"), parseFloat("${dataModel2.totalMoney}"), parseFloat("${dataModel3.totalMoney}"), parseFloat("${dataModel4.totalMoney}")]
+            data: [parseFloat("${dataModel0.money}"), parseFloat("${dataModel1.money}"), parseFloat("${dataModel2.money}"), parseFloat("${dataModel3.money}"), parseFloat("${dataModel4.money}"), parseFloat("${dataModel5.money}"), parseFloat("${dataModel6.money}"), parseFloat("${dataModel7.money}"), parseFloat("${dataModel8.money}"), parseFloat("${dataModel9.money}")]
         }]
     };
 

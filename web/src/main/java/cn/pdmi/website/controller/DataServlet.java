@@ -1,6 +1,7 @@
 package cn.pdmi.website.controller;
 
 import cn.pdmi.modianSpider.pojo.DataModel;
+import cn.pdmi.modianSpider.pojo.Grjz;
 import cn.pdmi.website.service.DataService;
 
 import javax.servlet.ServletException;
@@ -17,11 +18,11 @@ public class DataServlet extends HttpServlet{
     private DataService dataService=new DataService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        List<DataModel> dataModels = dataService.selectDataModel();
-        for (int i = 0; i <dataModels.size() ; i++) {
-            req.setAttribute("dataModel"+i,dataModels.get(i));
+        List<Grjz> grjzs = dataService.selectDataModel();
+        for (int i = 0; i <grjzs.size() ; i++) {
+            req.setAttribute("dataModel"+i,grjzs.get(i));
         }
-        //req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req,resp);
+        req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req,resp);
     }
 
     @Override
