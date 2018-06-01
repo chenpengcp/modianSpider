@@ -1,6 +1,5 @@
 package cn.pdmi.website.controller;
 
-import cn.pdmi.modianSpider.pojo.Grjz;
 import cn.pdmi.website.service.DataService;
 
 import javax.servlet.ServletException;
@@ -14,7 +13,7 @@ import java.util.Map;
 /**
  * Created by chen_ on 2018/4/26.
  */
-public class SelectServlet extends HttpServlet {
+public class CountServlet extends HttpServlet {
     private DataService dataService = new DataService();
 
     @Override
@@ -26,19 +25,17 @@ public class SelectServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
-        String id = req.getParameter("id");
-        if (dataService.find(id) != null) {
-            Map<Integer, Double> map = dataService.selectOne(id);
-            StringBuilder sb = new StringBuilder();
-            sb.append("[{\"pm\":");
-            for (Integer key : map.keySet()
-                    ) {
-                sb.append(key).append(",\"je\":").append(map.get(key));
+        List<String> list = dataService.selectCount();
+        List<String> set = dataService.selectJe();
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < list.size(); i++) {
+            if (i != list.size() - 1) {
+                sb.append("{\"count\":").append(list.get(i)).append(",\"bl\":").append(set.get(i)).append("},");
+            } else {
+                sb.append("{\"count\":").append(list.get(i)).append(",\"bl\":").append(set.get(i)).append("}]");
             }
-            sb.append("}]");
-            resp.getWriter().write(sb.toString());
-        } else {
-            resp.getWriter().write("[{\"xm\":\"no\"}]");
         }
+        resp.getWriter().write(sb.toString());
     }
 }

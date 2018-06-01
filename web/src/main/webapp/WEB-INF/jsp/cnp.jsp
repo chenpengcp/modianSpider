@@ -16,8 +16,17 @@
     <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/unslider.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/canvas_bg.js"></script>
+    <script src="${pageContext.request.contextPath}/js/canvas_clock.js"></script>
+    <script src="${pageContext.request.contextPath}/css/jq22.css"></script>
     <!-- 写点样式，让轮播好看点 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
         ul, ol {
             padding: 0;
         }
@@ -80,17 +89,6 @@
             right: 15px;
         }
 
-        #mm {
-            position: absolute;
-            top: 100px;
-            left: 35%;
-            cursor: pointer;
-        }
-
-        #mm:hover {
-
-        }
-
         .time-item strong {
             background: #C71C60;
             color: #fff;
@@ -119,6 +117,295 @@
             padding: 0 10px;
             float: left;
         }
+
+        .btn-container {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -ms-flex-pack: start;
+            justify-content: space-around;
+        }
+
+        .btn--shockwave.is-active {
+            width: 6.8rem;
+            line-height: 6.8rem;
+            background: #fff;
+            border-radius: 50%;
+            text-align: center;
+            margin: 1.6rem;
+            font-size: 0.9rem;
+            /*font-weight: bolder;*/
+            font-family: Arial;
+            color: #499249;
+            border: none;
+            padding: 0;
+            position: relative;
+            outline: none;
+        }
+
+        .btn--shockwave.is-active {
+            -webkit-animation: shockwaveJump 1s ease-out infinite;
+            animation: shockwaveJump 1s ease-out infinite;
+        }
+
+        .btn--shockwave.is-active:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            border-radius: 50%;
+            -webkit-animation: shockwave 1s .65s ease-out infinite;
+            animation: shockwave 1s .65s ease-out infinite;
+        }
+
+        .btn--shockwave.is-active:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            border-radius: 50%;
+            -webkit-animation: shockwave 1s .5s ease-out infinite;
+            animation: shockwave 1s .5s ease-out infinite;
+        }
+
+        @-webkit-keyframes shockwaveJump {
+            0% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+            40% {
+                -webkit-transform: scale(1.08);
+                transform: scale(1.08);
+            }
+            50% {
+                -webkit-transform: scale(0.98);
+                transform: scale(0.98);
+            }
+            55% {
+                -webkit-transform: scale(1.02);
+                transform: scale(1.02);
+            }
+            60% {
+                -webkit-transform: scale(0.98);
+                transform: scale(0.98);
+            }
+            100% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shockwaveJump {
+            0% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+            40% {
+                -webkit-transform: scale(1.08);
+                transform: scale(1.08);
+            }
+            50% {
+                -webkit-transform: scale(0.98);
+                transform: scale(0.98);
+            }
+            55% {
+                -webkit-transform: scale(1.02);
+                transform: scale(1.02);
+            }
+            60% {
+                -webkit-transform: scale(0.98);
+                transform: scale(0.98);
+            }
+            100% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+        }
+
+        @-webkit-keyframes shockwave {
+            0% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+                box-shadow: 0 0 2px rgba(0, 0, 0, 0.15), inset 0 0 1px rgba(0, 0, 0, 0.15);
+            }
+            95% {
+                box-shadow: 0 0 50px transparent, inset 0 0 30px transparent;
+            }
+            100% {
+                -webkit-transform: scale(2.25);
+                transform: scale(2.25);
+            }
+        }
+
+        @keyframes shockwave {
+            0% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+                box-shadow: 0 0 2px rgba(0, 0, 0, 0.15), inset 0 0 1px rgba(0, 0, 0, 0.15);
+            }
+            95% {
+                box-shadow: 0 0 50px transparent, inset 0 0 30px transparent;
+            }
+            100% {
+                -webkit-transform: scale(2.25);
+                transform: scale(2.25);
+            }
+        }
+
+        :root {
+            --bg: #3C465C;
+            --primary: #78FFCD;
+            --solid: #fff;
+        }
+
+        .btn--ll {
+            position: relative;
+            margin: 0 auto;
+            width: 13em;
+            color: var(--primary);
+            border: .15em solid var(--primary);
+            border-radius: 5em;
+            text-transform: uppercase;
+            text-align: center;
+            font-size: 1.3em;
+            line-height: 2em;
+            cursor: pointer;
+        }
+
+        .dot {
+            content: '';
+            position: absolute;
+            top: 0;
+            display: block;
+            width: 20%;
+            height: 100%;
+            border-radius: 100%;
+            -webkit-transition: all 300ms ease;
+            transition: all 300ms ease;
+            opacity: 0;
+        }
+
+        .dot:after {
+            content: '';
+            position: absolute;
+            left: calc(50% - .4em);
+            top: -.4em;
+            height: .8em;
+            width: .8em;
+            background: var(--primary);
+            border-radius: 1em;
+            border: .25em solid var(--solid);
+            box-shadow: 0 0 .7em var(--solid),
+            0 0 2em var(--primary);
+        }
+
+        .btn:hover .dot,
+        .btn:focus .dot {
+            -webkit-animation: atom 2s infinite linear;
+            animation: atom 2s infinite linear;
+            opacity: 1;
+        }
+
+        @-webkit-keyframes atom {
+            0% {
+                -webkit-transform: translateX(0) rotate(0);
+                transform: translateX(0) rotate(0);
+            }
+            25% {
+                -webkit-transform: translateX(400%) rotate(0);
+                transform: translateX(400%) rotate(0);
+            }
+            50% {
+                -webkit-transform: translateX(400%) rotate(180deg);
+                transform: translateX(400%) rotate(180deg);
+            }
+            75% {
+                -webkit-transform: translateX(0) rotate(180deg);
+                transform: translateX(0) rotate(180deg);
+            }
+            100% {
+                -webkit-transform: translateX(0) rotate(360deg);
+                transform: translateX(0) rotate(360deg);
+            }
+        }
+
+        @keyframes atom {
+            0% {
+                -webkit-transform: translateX(0) rotate(0);
+                transform: translateX(0) rotate(0);
+            }
+            25% {
+                -webkit-transform: translateX(400%) rotate(0);
+                transform: translateX(400%) rotate(0);
+            }
+            50% {
+                -webkit-transform: translateX(400%) rotate(180deg);
+                transform: translateX(400%) rotate(180deg);
+            }
+            75% {
+                -webkit-transform: translateX(0) rotate(180deg);
+                transform: translateX(0) rotate(180deg);
+            }
+            100% {
+                -webkit-transform: translateX(0) rotate(360deg);
+                transform: translateX(0) rotate(360deg);
+            }
+        }
+
+        .loading {
+            width: 150px;
+            height: 15px;
+            margin: 0 auto;
+            position: relative;
+            margin-top: 100px;
+        }
+
+        .loading span {
+            position: absolute;
+            width: 15px;
+            height: 100%;
+            border-radius: 50%;
+            background: lightgreen;
+            -webkit-animation: load 1.04s ease-in infinite normal;
+        }
+
+        @-webkit-keyframes load {
+            0% {
+                opacity: 1;
+                -webkit-transform: translate(0px);
+            }
+            100% {
+                opacity: 0;
+                -webkit-transform: translate(150px);
+            }
+        }
+
+        .loading span:nth-child(1) {
+            -webkit-animation-delay: 0.13s;
+        }
+
+        .loading span:nth-child(2) {
+            -webkit-animation-delay: 0.26s;
+        }
+
+        .loading span:nth-child(3) {
+            -webkit-animation-delay: 0.39s;
+        }
+
+        .loading span:nth-child(4) {
+            -webkit-animation-delay: 0.52s;
+        }
+
+        .loading span:nth-child(5) {
+            -webkit-animation-delay: 0.65s;
+        }
+
     </style>
 </head>
 <body>
@@ -137,50 +424,77 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab1">
                         <canvas id="c" style="position: absolute;z-index: -1;text-align: center;"></canvas>
-                        <div id="mm">
-                            <img src="${pageContext.request.contextPath}/image/fqy.jpg" class="img-circle">
-                            <div style="margin-left: 40px"><h1 style="color: deepskyblue;font-family: Arial;">SNH48 Team
-                                HII 费沁源</h1></div>
-
+                        <div class="row">
+                            <div class="span12">
+                                <div class="row">
+                                    <div class="span3"></div>
+                                    <div class="span6" style="text-align: center ;padding-top: 20px"><img
+                                            src="${pageContext.request.contextPath}/image/fqy.jpg"
+                                            class="img-circle"></div>
+                                    <div class="span3"></div>
+                                </div>
+                                <%--<div style="margin-left: 40px"><h1 style="color: deepskyblue;font-family: Arial;">SNH48 Team--%>
+                                <%--HII 费沁源</h1>--%>
+                                <div class="row">
+                                    <div class="span3"></div>
+                                    <div class="span6" style="text-align: center ;padding-top: 25px">
+                                        <div class="btn btn--ll" id="tc" rel="popover"
+                                             data-content="欢迎来到费沁源的小绿龟集资站,本网站由纯java开发,如果有兴趣参与请到生个绿龟吧联系我！"
+                                             data-original-title="暴走的冰女mm:" data-placement="bottom">
+                                            <span>SNH48 Team HII 费沁源</span>
+                                            <div class="dot"></div>
+                                        </div>
+                                    </div>
+                                    <div class="span3"></div>
+                                </div>
+                                <%--</div>--%>
+                            </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="tab2" style="margin-left: 200px">
-                        <div class="row-fluid">
+                    <div class="tab-pane" id="tab2">
+                        <div class="row-fluid" style="text-align: center">
                             <div class="span4">
                                 <p>
                                     <small>输入自己的摩点id可以查询自己的集资金额.</small>
                                 </p>
-                                <div class="input-append" style="margin-top: 20px">
+                                <div class="input-append" style="margin-top: 20px;">
                                     <input class="span2" id="appendedInputButton" type="text"
-                                           style="width:250px ;">
+                                           style="width:350px ;">
                                     <button class="btn" type="button" onclick="aaa()">查询</button>
                                 </div>
-                                <div id="an">
-                                    <button class="btn btn-block" type="button"
-                                            onclick=window.open("${pageContext.request.contextPath}/servlet/dataServlet")>
-                                        点击查看源推集资榜前十
-                                    </button>
-                                    <button class="btn btn-block" type="button"
-                                            onclick=window.open("${pageContext.request.contextPath}/servlet/teamServlet")>
-                                        点击查看全团集资情况
-                                    </button>
-                                    <button class="btn btn-block" type="button">点击查看近期pk</button>
-                                    <button class="btn btn-block" type="button">点击查看源推集资结构</button>
+                                <div class="row-fluid">
+                                    <div id="an">
+                                        <div class='btn-container' style="margin-top: 20px">
+                                            <button class='btn btn--shockwave is-active'
+                                                    onclick=window.open("${pageContext.request.contextPath}/servlet/dataServlet")>
+                                                查看集资榜
+                                            </button>
+                                            <button class='btn btn--shockwave is-active'
+                                                    onclick=window.open("${pageContext.request.contextPath}/servlet/teamServlet")>
+                                                查看全团集资
+                                            </button>
+                                            <button class='btn btn--shockwave is-active' onclick="bbb()">
+                                                查看集资结构
+                                            </button>
+                                            <button class='btn btn--shockwave is-active'>
+                                                查看近期pk
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div id="gr">
-                                    <img src="${pageContext.request.contextPath}/image/1.JPG" class="img-circle">
+                                <div id="gr" style="margin-top: 20px;">
+                                    <div class="loading">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="span1">
+                            <div class="span1"></div>
+                            <div class="span7" id="pm" style="text-align: center">
                             </div>
-                            <div class="span7" id="pm">
-                            </div>
-                            <%--<div class="span6">--%>
-                            <%--<div><input type="submit" name="Submit" value="点击查看锅推十熊"--%>
-                            <%--style="width: 300px;height: 100px;color: crimson;font-size: larger;font-weight: bold"--%>
-                            <%--onclick=window.open("${pageContext.request.contextPath}/servlet/dataServlet")>--%>
-                            <%--</div>--%>
-                            <%--</div>--%>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab3">
@@ -323,9 +637,21 @@
                     </div>
                     <div class="tab-pane" id="tab4">
                         <p>正在开发中...</p>
+                        <div class="row-fluid">
+                            <div class="span12" style="text-align: center">
+                                <canvas id="clock5_" width="400px" height="400px">
+                                </canvas>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-pane" id="tab5">
                         <p>正在开发中...</p>
+                        <div class="row-fluid">
+                            <div class="span12" style="text-align: center">
+                                <canvas id="clock6_" width="400px" height="400px">
+                                </canvas>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-pane" id="tab6">
                         <canvas id="canvas" width="100%" height="100%" style="position: absolute;z-index:-1"></canvas>
@@ -478,7 +804,8 @@
 </script>
 
 <script>
-    var intDiff = parseInt(5097600); //倒计时总秒数量
+    var timestamp = Date.parse(new Date());
+    var intDiff = 1532750400 - parseInt(timestamp) / 1000; //倒计时总秒数量
     function timer(intDiff) {
         window.setInterval(function () {
             var day = 0,
@@ -507,7 +834,7 @@
 </script>
 <script>
     $(document).ready(function () {
-        var s = '<table class="table table-striped table-hover"><caption>集资总榜</caption><thead><tr><th>id</th><th>成员</th><th>金额</th><th>票数</th><th>队伍</th></tr></thead><tbody>';
+        var s = '<table class="table table-striped table-hover table-bordered"><caption>集资总榜</caption><thead><tr><th>id</th><th>成员</th><th>金额</th><th>票数</th><th>队伍</th></tr></thead><tbody>';
         $.get({
             url: "${pageContext.request.contextPath}/servlet/jzbServlet",
             dataType: 'json',
@@ -535,11 +862,75 @@
             dataType: 'json',
             success: function (result) {
                 //alert(result[0].je);
-                $("#gr").html("<p class=\"lead\" style=\"padding-top: 130px\">" + "你的集资金额为<strong>" + result[0].je + "</strong>!在源推中排名第<strong>" + result[0].pm + "</strong>位！谢谢你为源源集资！</p>");
+                if (result[0].xm != "no") {
+                    $("#gr").html("<p class=\"lead\" style=\"padding-top: 130px\">" + "你的集资金额为<strong>" + result[0].je + "</strong>!在源推中排名第<strong>" + result[0].pm + "</strong>位！谢谢你为源源集资！</p>");
+                } else {
+                    $("#gr").html("<p class=\"lead\" style=\"padding-top: 100px\">你输入的id有误或者你不是源推！</p>");
+                }
             }
         });
     }
 </script>
+<script>
+    function bbb() {
+        var s = '<table class="table table-striped table-hover table-bordered"><caption>源推集资结构</caption><thead><tr><th>区间</th><th>人数</th><th>金额比例</th></tr></thead><tbody>';
+        $.ajax({
+            type: 'GET',
+            url: "${pageContext.request.contextPath}/servlet/countServlet",
+            dataType: 'json',
+            success: function (result) {
+                s = s + '<tr><td>大于10000</td><td>' + result[0].count + '</td><td>' + result[0].bl + '%</td><td>';
+                s = s + '<tr><td>5000-10000</td><td>' + result[1].count + '</td><td>' + result[1].bl + '%</td><td>';
+                s = s + '<tr><td>1000-5000</td><td>' + result[2].count + '</td><td>' + result[2].bl + '%</td><td>';
+                s = s + '<tr><td>500-1000</td><td>' + result[3].count + '</td><td>' + result[4].bl + '%</td><td>';
+                s = s + '<tr><td>100-500</td><td>' + result[4].count + '</td><td>' + result[4].bl + '%</td><td>';
+                s = s + '<tr><td>35-100</td><td>' + result[5].count + '</td><td>' + result[5].bl + '%</td><td>';
+                s = s + '<tr><td>10-35</td><td>' + result[6].count + '</td><td>' + result[6].bl + '%</td><td>';
+                s = s + '<tr><td>小于10</td><td>' + result[7].count + '</td><td>' + result[7].bl + '%</td><td>';
+                s = s + '</tbody></table>';
+                $("#gr").html(s);
+            }
+        });
+    }
+</script>
+<script>
+    $(function () {
+        $("#tc").popover();
+    });
+</script>
+<script>
+    clockd5_ = {
+        "indicate": true,
+        "indicate_color": "#222",
+        "dial1_color": "#666600",
+        "dial2_color": "#81812e",
+        "dial3_color": "#9d9d5c",
+        "time_add": 1,
+        "time_24h": true,
+        "date_add": 3,
+        "date_add_color": "#999",
+    };
+    var c = document.getElementById('clock5_');
+    cns5_ = c.getContext('2d');
+    clock_follow(200, cns5_, clockd5_);
 
+    clockd6_ = {
+        "indicate": true,
+        "indicate_color": "#222",
+        "dial1_color": "#666600",
+        "dial2_color": "#81812e",
+        "dial3_color": "#9d9d5c",
+        "time_add": 1,
+        "time_add_color": "#ccc",
+        "time_24h": true,
+        "timeoffset": 0,
+        "date_add": 3,
+        "date_add_color": "#999",
+    };
+
+    var d = document.getElementById('clock6_');
+    cns6_ = d.getContext('2d');
+    clock_circles(200, cns6_, clockd6_);
+</script>
 </body>
 </html>

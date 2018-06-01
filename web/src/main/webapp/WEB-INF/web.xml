@@ -33,6 +33,12 @@
         <!-- servlet所在的包名跟类名 -->
         <servlet-class>cn.pdmi.website.controller.SelectServlet</servlet-class>
     </servlet>
+    <servlet>
+        <!-- 当前servlet的名称 -->
+        <servlet-name>CountServlet</servlet-name>
+        <!-- servlet所在的包名跟类名 -->
+        <servlet-class>cn.pdmi.website.controller.CountServlet</servlet-class>
+    </servlet>
 
 
     <servlet-mapping>
@@ -64,6 +70,12 @@
         <servlet-name>SelectServlet</servlet-name>
         <!-- 这是你在浏览器上访问的地址,必须要提 /servlet/xxxx 格式，不然tomcat启动会报错-->
         <url-pattern>/servlet/selectServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <!-- 必须于上一个servlet标签中的名称保持一致 -->
+        <servlet-name>CountServlet</servlet-name>
+        <!-- 这是你在浏览器上访问的地址,必须要提 /servlet/xxxx 格式，不然tomcat启动会报错-->
+        <url-pattern>/servlet/countServlet</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

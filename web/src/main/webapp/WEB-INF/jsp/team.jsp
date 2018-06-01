@@ -12,10 +12,17 @@
 <head>
     <name>全团集资情况</name>
     <script src="${pageContext.request.contextPath}/js/echarts.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/echarts.min.js"></script>
+    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-<div id="main" style="width: 1600px;height:600px;"></div>
+<div class="row-fluid">
+    <div class="span12">
+        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+        <div id="main" style="width: 1600px;height:600px;"></div>
+    </div>
+</div>
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'));
@@ -46,7 +53,7 @@
                     {value: parseFloat("${data0.je}"), name: "${data0.xm}"},
                     {value: parseFloat("${data1.je}"), name: "${data1.xm}"},
                     {value: parseFloat("${data2.je}"), name: "${data2.xm}"},
-                    {value: parseFloat("${data3.je}"), name: "${data4.xm}"},
+                    {value: parseFloat("${data3.je}"), name: "${data3.xm}"},
                     {value: parseFloat("${data4.je}"), name: "${data4.xm}"},
                     {value: parseFloat("${data5.je}"), name: "${data5.xm}"},
                     {value: parseFloat("${data6.je}"), name: "${data6.xm}"},

@@ -12,10 +12,16 @@
 <head>
     <name>源推前十榜：</name>
     <script src="${pageContext.request.contextPath}/js/echarts.min.js"></script>
+    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-<div id="main" style="width: 1600px;height:600px;"></div>
+<div class="row-fluid">
+    <div class="span12">
+        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+        <div id="main" style="width: 1400px;height:600px;"></div>
+    </div>
+</div>
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'));
