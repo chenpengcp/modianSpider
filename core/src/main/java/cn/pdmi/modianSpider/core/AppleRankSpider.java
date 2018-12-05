@@ -29,10 +29,16 @@ public class AppleRankSpider implements Runnable {
         appRank.setDate(date);
         //对于有搜索指数的
         if (document.select("div.app-list div.media.keyword-histroy") != null && document.select("div.app-list div.media.keyword-histroy").size() > 0) {
-            appRank.setTotalRank(document.select("div.app-list div.media.keyword-histroy").get(0).select("div.media-right.mobile-hide table.class-rank tr").get(1).select("td").get(0).html().equals("-") ?
-                    "0" : document.select("div.app-list div.media.keyword-histroy").get(0).select("div.media-right.mobile-hide table.class-rank tr").get(1).select("td").get(0).html());
-            appRank.setListRank(document.select("div.app-list div.media.keyword-histroy").get(0).select("div.media-right.mobile-hide table.class-rank tr").get(1).select("td").get(1).html().equals("-") ?
-                    "0" : document.select("div.app-list div.media.keyword-histroy").get(0).select("div.media-right.mobile-hide table.class-rank tr").get(1).select("td").get(1).html());
+            if (document.select("div.app-list div.media.keyword-histroy").get(0).select("div.media-body h4 a").html().contains(keyWord)) {
+                appRank.setTotalRank(document.select("div.app-list div.media.keyword-histroy").get(0).select("div.media-right.mobile-hide table.class-rank tr").get(1).select("td").get(0).html().equals("-") ?
+                        "0" : document.select("div.app-list div.media.keyword-histroy").get(0).select("div.media-right.mobile-hide table.class-rank tr").get(1).select("td").get(0).html());
+                appRank.setListRank(document.select("div.app-list div.media.keyword-histroy").get(0).select("div.media-right.mobile-hide table.class-rank tr").get(1).select("td").get(1).html().equals("-") ?
+                        "0" : document.select("div.app-list div.media.keyword-histroy").get(0).select("div.media-right.mobile-hide table.class-rank tr").get(1).select("td").get(1).html());
+            } else {
+                appRank.setTotalRank("0");
+                appRank.setListRank("0");
+            }
+
         } else {
             appRank.setTotalRank("0");
             appRank.setListRank("0");
@@ -42,7 +48,7 @@ public class AppleRankSpider implements Runnable {
 
     public void insert(AppRank appRank) throws Exception {
         QueryRunner queryRunner = new QueryRunner(Modian_JDBCUtils.getDataSource());
-        String sql = "INSERT INTO app_rank (appName,totalRank,listRank,date) " +
+        String sql = "INSERT INTO app_rank1 (appName,totalRank,listRank,date) " +
                 "VALUES (?,?,?,?)";
         int update = queryRunner.update(sql, appRank.getName(), appRank.getTotalRank(), appRank.getListRank(), appRank.getDate());
         if (update == 1) {

@@ -2,9 +2,10 @@ package cn.pdmi.website.dao;
 
 import cn.pdmi.modianSpider.pojo.DataModel;
 import cn.pdmi.modianSpider.pojo.Grjz;
-import cn.pdmi.modianSpider.utils.CPUtils;
+import cn.pdmi.modianSpider.utils.Modian_JDBCUtils;
 import cn.pdmi.modianSpider.utils.JDBCUtils;
-import cn.pdmi.modianSpider.utils.CPUtils;
+import cn.pdmi.modianSpider.utils.Modian_JDBCUtils;
+import cn.pdmi.modianSpider.utils.Modian_JDBCUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -20,21 +21,21 @@ import java.util.Map;
  */
 public class DataDao {
     public Grjz find(String id) throws Exception {
-        QueryRunner queryRunner = new QueryRunner(CPUtils.getDataSource());
+        QueryRunner queryRunner = new QueryRunner(Modian_JDBCUtils.getDataSource());
         String sql = "SELECT * FROM fqy where name=?";
         Grjz grjz = queryRunner.query(sql, new BeanHandler<Grjz>(Grjz.class), id);
         return grjz;
     }
 
     public List<Grjz> selectAll() throws Exception {
-        QueryRunner queryRunner = new QueryRunner(CPUtils.getDataSource());
+        QueryRunner queryRunner = new QueryRunner(Modian_JDBCUtils.getDataSource());
         String sql = "SELECT * FROM (SELECT id,NAME,SUM(money) money FROM fqy GROUP BY NAME) t ORDER BY t.money DESC LIMIT 0,10";
         List<Grjz> list = queryRunner.query(sql, new BeanListHandler<Grjz>(Grjz.class));
         return list;
     }
 
     public Map<Integer, Double> selectOne(String id) throws Exception {
-        QueryRunner queryRunner = new QueryRunner(CPUtils.getDataSource());
+        QueryRunner queryRunner = new QueryRunner(Modian_JDBCUtils.getDataSource());
         String sql = "SELECT l.money FROM (SELECT NAME,SUM(money) money FROM fqy GROUP BY NAME) l WHERE l.name=?";
         Double money = queryRunner.query(sql, new ScalarHandler<Double>(), id);
         String sql1 = "SELECT o.rownum FROM (SELECT @rownum:=@rownum+1 AS rownum,t.name,t.money FROM (SELECT id,NAME,SUM(money) money FROM fqy GROUP BY NAME) t,(SELECT @rownum:=0) r  ORDER BY t.money DESC) o WHERE o.name=?";
@@ -46,7 +47,7 @@ public class DataDao {
 
     public List<String> selectCount() throws Exception {
         ArrayList<String> list = new ArrayList<>();
-        QueryRunner queryRunner = new QueryRunner(CPUtils.getDataSource());
+        QueryRunner queryRunner = new QueryRunner(Modian_JDBCUtils.getDataSource());
 
         String sql1 = "SELECT COUNT(*) FROM (SELECT NAME,SUM(money) money FROM fqy GROUP BY NAME) l WHERE l.money>=10000";
         Long a = queryRunner.query(sql1, new ScalarHandler<Long>());
@@ -84,7 +85,7 @@ public class DataDao {
 
     public List<String> selectJe() throws Exception {
         ArrayList<String> list = new ArrayList<>();
-        QueryRunner queryRunner = new QueryRunner(CPUtils.getDataSource());
+        QueryRunner queryRunner = new QueryRunner(Modian_JDBCUtils.getDataSource());
         String sql = "SELECT SUM(money) FROM fqy";
         Double total = queryRunner.query(sql, new ScalarHandler<Double>());
 

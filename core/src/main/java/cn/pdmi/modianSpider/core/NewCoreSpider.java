@@ -71,7 +71,7 @@ public class NewCoreSpider implements Runnable {
 
     public void insert(Map<String, String> map) throws Exception {
         QueryRunner queryRunner = new QueryRunner(Modian_JDBCUtils.getDataSource());
-        String sql = "INSERT INTO lzy (name,money) " +
+        String sql = "INSERT INTO zjr (name,money) " +
                 "VALUES (?,?)";
         for (String key : map.keySet()
                 ) {
@@ -96,7 +96,7 @@ public class NewCoreSpider implements Runnable {
     public Map<String, String> getUrlId() throws Exception {
         Map<String, String> map = new HashMap<>();
         Properties properties = new Properties();
-        properties.load(new FileInputStream("D:/phantomjs/url.properties"));
+        properties.load(new FileInputStream("D:/phantomjs/zjr.properties"));
         Enumeration<?> enumeration = properties.propertyNames();
         while (enumeration.hasMoreElements()) {
             String key = (String) enumeration.nextElement();

@@ -42,7 +42,7 @@ public class AppleSearchSpider implements Runnable {
 
     public void insert(AppSearch appSearch) throws Exception {
         QueryRunner queryRunner = new QueryRunner(Modian_JDBCUtils.getDataSource());
-        String sql = "INSERT INTO app_store_search (appName,searchIndex,searchResult,date) " +
+        String sql = "INSERT INTO app_store_search1 (appName,searchIndex,searchResult,date) " +
                 "VALUES (?,?,?,?)";
         int update = queryRunner.update(sql, appSearch.getName(), appSearch.getSearchIndex(), appSearch.getSearchResult(), appSearch.getDate());
         if (update == 1) {
@@ -70,37 +70,38 @@ public class AppleSearchSpider implements Runnable {
     public void getData() throws Exception {
         AppleSearchSpider appleSearchSpider = new AppleSearchSpider();
         ArrayList<String> dates = new ArrayList<>();
-        for (int i = 1; i < 5; i++) {
-            StringBuffer sb = new StringBuffer();
-            sb.append("2018-0").append(i);
-            for (int j = 1; j < 31; j++) {
-                StringBuffer sb2 = new StringBuffer();
-                sb2.append("-");
-                if (j < 10) {
-                    sb2.append("0").append(j);
-                } else {
-                    sb2.append(j);
-                }
-                dates.add(sb.toString() + sb2.toString());
-            }
-        }
-        dates.add("2018-01-31");
-        dates.add("2018-03-31");
-        for (int i = 5; i < 6; i++) {
-            StringBuffer sb = new StringBuffer();
-            sb.append("2018-0").append(i);
-            for (int j = 1; j < 26; j++) {
-                StringBuffer sb2 = new StringBuffer();
-                sb2.append("-");
-                if (j < 10) {
-                    sb2.append("0").append(j);
-                } else {
-                    sb2.append(j);
-                }
-                dates.add(sb.toString() + sb2.toString());
-            }
-        }
-        List<String> keyWords = KeyWordUtils.getKeyWordsList("xiubu");
+//        for (int i = 1; i < 5; i++) {
+//            StringBuffer sb = new StringBuffer();
+//            sb.append("2018-0").append(i);
+//            for (int j = 1; j < 31; j++) {
+//                StringBuffer sb2 = new StringBuffer();
+//                sb2.append("-");
+//                if (j < 10) {
+//                    sb2.append("0").append(j);
+//                } else {
+//                    sb2.append(j);
+//                }
+//                dates.add(sb.toString() + sb2.toString());
+//            }
+//        }
+        //dates.add("2018-01-31");
+        //dates.add("2018-03-31");
+        dates.add("2018-05-15");
+//        for (int i = 5; i < 6; i++) {
+//            StringBuffer sb = new StringBuffer();
+//            sb.append("2018-0").append(i);
+//            for (int j = 1; j < 26; j++) {
+//                StringBuffer sb2 = new StringBuffer();
+//                sb2.append("-");
+//                if (j < 10) {
+//                    sb2.append("0").append(j);
+//                } else {
+//                    sb2.append(j);
+//                }
+//                dates.add(sb.toString() + sb2.toString());
+//            }
+//        }
+        List<String> keyWords = KeyWordUtils.getKeyWordsList("rank");
         for (int i = 0; i < keyWords.size(); i++) {
             for (String date : dates
                     ) {
